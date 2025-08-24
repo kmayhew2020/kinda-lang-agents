@@ -1,0 +1,33 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kinda-lang-agents"
+version = "0.1.0"
+description = "🤖 Specialized Claude Code agents for kinda-lang development workflow"
+authors = [
+    { name = "Kevin Mayhew", email = "kevin@example.com" }
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers", 
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+]
+keywords = ["claude-code", "ai-agents", "code-review", "project-management", "kinda-lang"]
+
+[project.urls]
+Homepage = "https://github.com/kmayhew2020/kinda-lang-agents"
+Repository = "https://github.com/kmayhew2020/kinda-lang-agents.git"
+Issues = "https://github.com/kmayhew2020/kinda-lang-agents/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agents*", "templates*"]
