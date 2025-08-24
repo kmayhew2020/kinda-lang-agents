@@ -192,6 +192,12 @@ You're building toward a **fuzzy meta-language ecosystem** where:
 - **Homebrew-like experience** - robust, simple, "just works"
 - **Tooling comes last** - after core experience is rock-solid
 
+**4. Zero-Config Defaults with Progressive Customization**
+- **Works immediately** - sensible defaults, no configuration required
+- **Progressive complexity** - customize only what you want to change
+- **Configuration hierarchy** - built-in defaults → project config → user config
+- **Kinda philosophy in UX** - "just works" but embraces user uncertainty
+
 **Remember**: In Kinda-land, even the project manager embraces uncertainty. Make plans that are kinda organized, but always leave room for emergent weirdness.
 
 ---
