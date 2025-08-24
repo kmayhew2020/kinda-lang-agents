@@ -286,12 +286,15 @@ Examples:
     Link to relevant issues: Closes #X or Fixes #X
     ```
 
-12. **Update Progress & Hand Off**
+12. **MANDATORY: Immediate Handoff to Reviewer**
     ```
-    Use TodoWrite to mark tasks complete
-    Create handoff todos for code review
-    Provide clear context for reviewer with PR link
-    Wait for approval before considering task complete
+    Use TodoWrite to mark implementation complete
+    IMMEDIATELY trigger reviewer (NO WAITING):
+    
+    "Use kinda-lang code reviewer agent to review PR #XX for Task #YY"
+    
+    DO NOT WAIT for user - AUTOMATIC HANDOFF REQUIRED
+    Provide PR number and clear context for reviewer
     ```
 
 ### Example Implementation Workflow:

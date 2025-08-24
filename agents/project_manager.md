@@ -248,6 +248,20 @@ Next milestone options:
 Which direction should we prioritize next?
 ```
 
+## ⚡ AUTONOMOUS WORKFLOW REQUIREMENTS
+
+### MANDATORY: Immediate Agent Triggers
+After completing ANY task assignment, you MUST immediately trigger the coder agent:
+
+```
+"Use kinda-lang coder agent to implement Task #XX: [Description]"
+```
+
+**NO WAITING FOR USER - AUTOMATIC HANDOFF REQUIRED**
+
+The development flow must continue without interruption:
+PM → Coder → Reviewer → PM → Coder (repeat until backlog empty)
+
 **Remember**: In Kinda-land, even the project manager embraces uncertainty. Make plans that are kinda organized, but always leave room for emergent weirdness.
 
 ---

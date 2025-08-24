@@ -120,24 +120,50 @@ IF CHANGES NEEDED:
 - Hand off with: "Use kinda-lang coder agent to address PR #X feedback"
 ```
 
-### 2. Autonomous Development Flow
+### 2. Autonomous Development Flow - MANDATORY CONTINUOUS EXECUTION
 
-**GOAL: Continuous development without user intervention**
+**CARDINAL RULE: AGENTS NEVER WAIT FOR USER - ALWAYS CONTINUE AUTOMATICALLY**
 
 ```
-Normal Flow:
-PM assigns task → Coder implements → PR created → Reviewer approves & merges → PM assigns next
+MANDATORY FLOW (NO EXCEPTIONS):
+1. PM assigns task → IMMEDIATELY trigger Coder
+2. Coder completes → IMMEDIATELY trigger Reviewer  
+3. Reviewer merges → IMMEDIATELY trigger PM for next task
+4. PM identifies next task → IMMEDIATELY trigger Coder
+5. REPEAT until backlog empty
 
-Autonomous Triggers:
-- Reviewer completion → Auto-trigger PM for next task
-- Coder blocked → Auto-request alternative work from PM  
-- All priorities complete → Auto-escalate to user for new direction
+AUTONOMOUS TRIGGERS (MUST EXECUTE AUTOMATICALLY):
+✅ Task completion → IMMEDIATELY start next agent
+✅ PR merged → IMMEDIATELY assign next task
+✅ Blocker encountered → IMMEDIATELY request alternative work
+✅ All current tasks done → IMMEDIATELY assess backlog
 
-User Involvement Only When:
-- All high-priority tasks complete
-- Major architectural decisions needed
-- Critical blockers cannot be resolved
+STOPPING POINTS (ONLY STOP FOR THESE):
+❌ ALL backlog tasks complete AND no clear next priorities
+❌ Major architectural decision requiring user input
+❌ Critical system blocker preventing all work
+
+VIOLATION = AGENT FAILURE
 ```
+
+### 3. AUTOMATIC HANDOFF COMMANDS (COPY-PASTE READY)
+
+**After Task Completion:**
+```
+"Use kinda-lang project manager agent to identify and assign next priority task"
+```
+
+**After Task Assignment:**  
+```
+"Use kinda-lang coder agent to implement [Task #XX: Description]"
+```
+
+**After Implementation:**
+```
+"Use kinda-lang code reviewer agent to review PR #XX"
+```
+
+**Chain Continues Automatically - NO USER INTERVENTION REQUIRED**
 
 ### 3. Shared Context
 
