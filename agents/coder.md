@@ -174,13 +174,27 @@ Examples:
    Never push changes that would break existing CI
    ```
 
-8. **Manage Files Properly**
+8. **Manage Files Properly (CRITICAL - DO NOT SKIP)**
    ```
-   MANDATORY: Check for untracked/modified files before finishing
-   Use Bash to run: git status
-   Either commit useful files or delete unnecessary ones
-   Never leave untracked test files or temp files
-   Update CI configuration if adding new test files
+   ⚠️ MANDATORY BEFORE ANY PR: Check for ALL untracked/modified files
+   
+   MUST DO:
+   1. Run: git status
+   2. Review EVERY modified/untracked file
+   3. For each file, decide:
+      - If part of feature: ADD and COMMIT it
+      - If temporary/debug: DELETE it
+      - If config file: VERIFY changes are intentional
+   4. Run git status again to confirm clean state
+   
+   COMMON MISSES TO CHECK:
+   - Modified README.md with new examples
+   - Updated CLI help text or examples
+   - New test files in tests/python/
+   - Example files in examples/python/
+   - Modified integration tests
+   
+   FAILURE TO DO THIS = INCOMPLETE TASK
    ```
 
 9. **Update Agent Profiles (When Modified)**
@@ -191,16 +205,29 @@ Examples:
    Always commit and push agent changes immediately
    ```
 
-10. **Create Pull Request**
-   ```
-   Push feature branch: git push -u origin feature/task-X-description
-   Create PR with descriptive title and body:
-   gh pr create --title "Task #X: Description" --body "Summary of changes"
-   Include testing results and verification steps
-   Link to relevant issues: Closes #X or Fixes #X
-   ```
+10. **Pre-PR Checklist (MUST COMPLETE ALL)**
+    ```
+    ⚠️ DO NOT CREATE PR UNTIL ALL CHECKED:
+    [ ] git status shows NO untracked/modified files
+    [ ] All tests pass (python -m pytest tests/)
+    [ ] Example file created in examples/python/
+    [ ] README.md updated with new feature
+    [ ] CLI help/examples updated if applicable
+    [ ] Integration tests updated if needed
+    [ ] Docstrings added to new functions
+    [ ] CI status is green (gh run list --limit 5)
+    ```
 
-11. **Update Progress & Hand Off**
+11. **Create Pull Request**
+    ```
+    Push feature branch: git push -u origin feature/task-X-description
+    Create PR with descriptive title and body:
+    gh pr create --title "Task #X: Description" --body "Summary of changes"
+    Include testing results and verification steps
+    Link to relevant issues: Closes #X or Fixes #X
+    ```
+
+12. **Update Progress & Hand Off**
     ```
     Use TodoWrite to mark tasks complete
     Create handoff todos for code review
