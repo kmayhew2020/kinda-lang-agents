@@ -145,15 +145,28 @@ Examples:
    Commit progress frequently with descriptive messages
    ```
 
-5. **Test & Verify**
+5. **Test & Verify (MANDATORY for new features)**
    ```
-   Use Bash to run test suites
-   Create new tests for new functionality
-   Verify everything works as expected
-   Run coverage analysis to ensure quality
+   REQUIRED for all new functionality:
+   - Create comprehensive unit tests in tests/python/test_[feature].py
+   - Add input/output test files for end-to-end testing
+   - Update existing integration tests if affected
+   - Verify ALL tests pass (not just new ones)
+   - Run coverage analysis to ensure quality
+   - Test edge cases, error conditions, and integration scenarios
    ```
 
-6. **Check CI Before Push**
+6. **Documentation & Examples (MANDATORY for new features)**
+   ```
+   REQUIRED for all new functionality:
+   - Create example file: examples/python/[feature]_example.py.knda
+   - Update README.md with new construct syntax and behavior
+   - Add docstrings to all new functions
+   - Update kinda examples command output if applicable
+   - Document any new command-line flags or options
+   ```
+
+7. **Check CI Before Push**
    ```
    MANDATORY: Always check CI status before pushing
    Use Bash to run: gh run list --limit 5
@@ -161,7 +174,7 @@ Examples:
    Never push changes that would break existing CI
    ```
 
-7. **Manage Files Properly**
+8. **Manage Files Properly**
    ```
    MANDATORY: Check for untracked/modified files before finishing
    Use Bash to run: git status
@@ -170,7 +183,7 @@ Examples:
    Update CI configuration if adding new test files
    ```
 
-8. **Update Agent Profiles (When Modified)**
+9. **Update Agent Profiles (When Modified)**
    ```
    If you modify agent profiles during task work:
    cd /workspaces/kinda-lang-agents
@@ -178,7 +191,7 @@ Examples:
    Always commit and push agent changes immediately
    ```
 
-9. **Create Pull Request**
+10. **Create Pull Request**
    ```
    Push feature branch: git push -u origin feature/task-X-description
    Create PR with descriptive title and body:
@@ -187,7 +200,7 @@ Examples:
    Link to relevant issues: Closes #X or Fixes #X
    ```
 
-10. **Update Progress & Hand Off**
+11. **Update Progress & Hand Off**
     ```
     Use TodoWrite to mark tasks complete
     Create handoff todos for code review
@@ -207,14 +220,17 @@ For implementing Task #XX ~maybe construct:
 5. Add ~maybe transformer logic to langs/python/transformer.py
 6. Commit progress: `git add . && git commit -m "feat: implement ~maybe construct core functionality"`
 7. Create comprehensive tests in tests/python/test_maybe.py
-8. Run full test suite with `python -m pytest tests/`
-9. Commit tests: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
-10. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
-11. If CI failing, investigate and fix before proceeding
-12. Push branch: `git push -u origin feature/task-XX-maybe-construct`
-13. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
-14. Update TodoWrite with completion status
-15. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
+8. Add end-to-end test files in tests/python/input/test_maybe.py.knda
+9. Create example: examples/python/maybe_example.py.knda showing usage
+10. Update README.md with ~maybe syntax and 60% probability behavior
+11. Run full test suite with `python -m pytest tests/`
+12. Commit tests & docs: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
+13. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
+14. If CI failing, investigate and fix before proceeding
+15. Push branch: `git push -u origin feature/task-XX-maybe-construct`
+16. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+17. Update TodoWrite with completion status
+18. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
 
 ## 🔍 Code Patterns to Follow
@@ -269,6 +285,9 @@ class TestMaybeConstruct:
 ### Do:
 - **Follow existing patterns** - Look at similar constructs first
 - **Write comprehensive tests** - Test happy path, edge cases, errors
+- **Create examples for new features** - Add to examples/python/ directory
+- **Update documentation** - README.md and docstrings for all new functionality
+- **Add end-to-end tests** - Input/output test files for integration testing
 - **Run tests frequently** - Use `python -m pytest tests/` regularly
 - **Check CI before pushing** - MANDATORY: `gh run list --limit 5` to verify CI status
 - **Update todos** - Mark progress and create handoff todos
