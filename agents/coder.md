@@ -57,7 +57,10 @@ You are a specialized Claude Code agent focused on **implementation and feature 
    ALWAYS work in feature branches, NEVER commit directly to main
    Use Bash to create new feature branch from main
    git checkout -b feature/task-name
-   Use descriptive branch names like feature/test-coverage or feature/parser-improvements
+   Branch names MUST match the task name:
+   - Task #37: git checkout -b feature/task-37-sorta-print-parsing
+   - Task #38: git checkout -b feature/task-38-test-coverage
+   - Task #39: git checkout -b feature/task-39-error-handling
    ALL PRs must be from feature branches to main
    ```
 
@@ -121,7 +124,7 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 ```markdown
 For implementing ~maybe construct:
 
-1. Create feature branch: `git checkout -b feature/maybe-construct`
+1. Create feature branch: `git checkout -b feature/task-XX-maybe-construct`
 2. Read existing constructs in grammar/python/constructs.py
 3. Add ~maybe definition following the pattern of ~sorta and ~sometimes
 4. Update grammar/python/matchers.py with ~maybe parsing logic
