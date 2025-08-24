@@ -96,14 +96,16 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 
 ### Example TodoWrite Planning:
 ```markdown
-## Feature: ~maybe Construct Implementation
+## Task #XX: ~maybe Construct Implementation
 
 **Philosophy Check**: ✅ Embraces uncertainty with 60% execution probability
 **Architecture**: Follows existing ~sometimes pattern for consistency  
 **User Experience**: Simple syntax, transparent fuzzy behavior
+**Branch Strategy**: feature/task-XX-maybe-construct
 
 **Implementation Plan:**
-1. Research existing probabilistic constructs - Priority: HIGH
+1. Create feature branch and research existing patterns - Priority: HIGH
+   Branch: git checkout -b feature/task-XX-maybe-construct
    Success: Understanding of ~sorta (80%) and ~sometimes (50%) patterns
    
 2. Design ~maybe syntax and behavior - Priority: HIGH
@@ -112,12 +114,15 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 3. Implement core functionality - Priority: HIGH
    Files: constructs.py, matchers.py, transformer.py
    Pattern: Follow ~sometimes implementation approach
+   Commits: Use conventional commit format (feat:, test:, fix:)
    
 4. Create comprehensive test suite - Priority: HIGH  
    Coverage: Basic functionality, edge cases, integration scenarios
    
-5. Add usage examples and documentation - Priority: MEDIUM
+5. Create PR and add documentation - Priority: MEDIUM
+   PR: "Task #XX: Implement ~maybe construct"
    Files: examples/maybe_demo.py.knda, README updates
+   Handoff: Code reviewer agent for approval
 ```
 
 ## 🤝 Coordination with Other Agents

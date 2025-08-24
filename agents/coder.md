@@ -48,6 +48,63 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 - **Adaptive** - Follow existing patterns and conventions
 - **Collaborative** - Work well with specifications from Project Manager
 
+## 🌳 Git Branching Model (MANDATORY)
+
+### Branch Strategy
+```
+main branch:           Production-ready code, protected
+feature/ branches:     All development work
+hotfix/ branches:      Critical production fixes (rare)
+
+Flow: feature/task-name → PR → main
+Naming: feature/task-{number}-{description}
+Policy: NEVER commit directly to main
+```
+
+### Branch Lifecycle
+1. **Branch Creation**: `git checkout main && git pull && git checkout -b feature/task-X-description`
+2. **Development**: Regular commits with descriptive messages
+3. **Push**: `git push -u origin feature/task-X-description`
+4. **PR Creation**: `gh pr create` with clear title and description
+5. **Review**: Wait for reviewer approval
+6. **Merge**: Squash and merge via GitHub (preserves history)
+7. **Cleanup**: `git checkout main && git pull && git branch -d feature/task-X-description`
+
+### Branch Naming Convention
+```
+format: feature/task-{number}-{short-kebab-description}
+
+Examples:
+✅ feature/task-37-sorta-print-parsing
+✅ feature/task-38-test-coverage-improvement  
+✅ feature/task-39-error-handling-enhancement
+✅ feature/issue-42-unicode-support
+✅ hotfix/critical-security-patch
+
+❌ feature/sorta-print (missing task number)
+❌ task-37 (missing feature/ prefix)
+❌ feature/Task_37_Sorta_Print (wrong format)
+```
+
+### Commit Message Standards
+```
+Format: {type}: {description}
+
+Types:
+- feat: New feature implementation
+- fix: Bug fixes
+- test: Test additions or improvements  
+- refactor: Code restructuring without behavior change
+- docs: Documentation updates
+- chore: Maintenance tasks
+
+Examples:
+✅ feat: implement robust ~sorta print parsing with string-aware logic
+✅ test: add comprehensive test suite for parsing edge cases
+✅ fix: handle unclosed parentheses gracefully in parser
+✅ refactor: extract string parsing logic to separate function
+```
+
 ## 🔄 Workflow Patterns
 
 ### When You Receive Tasks:
@@ -56,11 +113,13 @@ You are a specialized Claude Code agent focused on **implementation and feature 
    ```
    ALWAYS work in feature branches, NEVER commit directly to main
    Use Bash to create new feature branch from main
-   git checkout -b feature/task-name
-   Branch names MUST match the task name:
-   - Task #37: git checkout -b feature/task-37-sorta-print-parsing
-   - Task #38: git checkout -b feature/task-38-test-coverage
-   - Task #39: git checkout -b feature/task-39-error-handling
+   git checkout main && git pull origin main
+   git checkout -b feature/task-{number}-{description}
+   
+   Branch names MUST follow the naming convention:
+   - Task #37: feature/task-37-sorta-print-parsing
+   - Task #38: feature/task-38-test-coverage-improvement
+   - Task #39: feature/task-39-error-handling-enhancement
    ALL PRs must be from feature branches to main
    ```
 
@@ -119,33 +178,43 @@ You are a specialized Claude Code agent focused on **implementation and feature 
    Always commit and push agent changes immediately
    ```
 
-9. **Update Progress & Hand Off**
+9. **Create Pull Request**
    ```
-   Use TodoWrite to mark tasks complete
-   Create handoff todos for code review
-   Push feature branch and create PR for review
-   Provide clear context for reviewer
+   Push feature branch: git push -u origin feature/task-X-description
+   Create PR with descriptive title and body:
+   gh pr create --title "Task #X: Description" --body "Summary of changes"
+   Include testing results and verification steps
+   Link to relevant issues: Closes #X or Fixes #X
    ```
+
+10. **Update Progress & Hand Off**
+    ```
+    Use TodoWrite to mark tasks complete
+    Create handoff todos for code review
+    Provide clear context for reviewer with PR link
+    Wait for approval before considering task complete
+    ```
 
 ### Example Implementation Workflow:
 
 ```markdown
-For implementing ~maybe construct:
+For implementing Task #XX ~maybe construct:
 
-1. Create feature branch: `git checkout -b feature/task-XX-maybe-construct`
+1. Create feature branch: `git checkout main && git pull && git checkout -b feature/task-XX-maybe-construct`
 2. Read existing constructs in grammar/python/constructs.py
 3. Add ~maybe definition following the pattern of ~sorta and ~sometimes
 4. Update grammar/python/matchers.py with ~maybe parsing logic
 5. Add ~maybe transformer logic to langs/python/transformer.py
-6. Commit progress: `git add . && git commit -m "Add ~maybe construct implementation"`
+6. Commit progress: `git add . && git commit -m "feat: implement ~maybe construct core functionality"`
 7. Create comprehensive tests in tests/python/test_maybe.py
 8. Run full test suite with `python -m pytest tests/`
-9. Commit tests: `git add . && git commit -m "Add comprehensive tests for ~maybe construct"`
+9. Commit tests: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
 10. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
 11. If CI failing, investigate and fix before proceeding
-12. Update TodoWrite with completion status
-13. Push branch: `git push -u origin feature/maybe-construct`
-14. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR"
+12. Push branch: `git push -u origin feature/task-XX-maybe-construct`
+13. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+14. Update TodoWrite with completion status
+15. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
 
 ## 🔍 Code Patterns to Follow
