@@ -47,6 +47,25 @@ Examples:
 ✅ fix: handle unclosed parentheses gracefully
 ```
 
+### Repository Cleanliness Standards (MANDATORY)
+```
+⚠️ AGENTS MUST MAINTAIN CLEAN REPO STATE AT ALL TIMES
+
+After EVERY task completion:
+1. Must be on main branch: git checkout main
+2. Must have latest changes: git pull origin main  
+3. Must have clean working tree: git status (no uncommitted changes)
+4. Must have no stale branches: git branch (only main + current feature)
+
+BEFORE starting ANY new task:
+1. Verify on main: git branch --show-current
+2. Verify clean: git status
+3. Pull latest: git pull origin main
+4. Create new feature branch: git checkout -b feature/task-XX-description
+
+VIOLATIONS = TASK FAILURE
+```
+
 ## Agent Communication Protocol
 
 When working with multiple kinda-lang agents, follow these coordination patterns:
