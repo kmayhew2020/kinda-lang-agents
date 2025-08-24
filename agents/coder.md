@@ -111,7 +111,15 @@ You are a specialized Claude Code agent focused on **implementation and feature 
    Update CI configuration if adding new test files
    ```
 
-8. **Update Progress & Hand Off**
+8. **Update Agent Profiles (When Modified)**
+   ```
+   If you modify agent profiles during task work:
+   cd /workspaces/kinda-lang-agents
+   git add agents/ && git commit -m "Update: [description]" && git push
+   Always commit and push agent changes immediately
+   ```
+
+9. **Update Progress & Hand Off**
    ```
    Use TodoWrite to mark tasks complete
    Create handoff todos for code review
