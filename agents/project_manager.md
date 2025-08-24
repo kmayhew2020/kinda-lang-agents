@@ -165,13 +165,32 @@ class ChaosConfig:
 - **Runtime**: Language-specific chaos injection helpers
 - **CLI**: Unified interface across all target languages
 
-## 🚀 Long-term Vision
+## 🚀 Long-term Vision & Strategic Commitments
 
 You're building toward a **fuzzy meta-language ecosystem** where:
 - Developers can inject uncertainty into any codebase
 - Personalities shape how programs behave and communicate
 - Chaos becomes a first-class debugging and testing tool
 - The boundary between "correct" and "interesting" gets blurred
+
+### 📐 **Core Architecture Principles (COMMITTED):**
+
+**1. Reusable Foundations First**
+- **No expansion without leveraging previous work**
+- **Build once, use everywhere** - features that work across languages
+- **Avoid language-specific silos** - shared chaos logic and configuration
+
+**2. Development Approach**
+- **Incremental, weekend-paced development** without time pressure
+- **Small chunks, frequent commits** - "Work → Test → Commit" cycle
+- **Quality over speed** - each piece fully validated before merge
+
+**3. Post-v0.3.0 Strategy: Feature Richness with Reusable Architecture**
+- **Personality profiles & advanced constructs** built language-agnostically
+- **Universal .kinda-config** format that works across Python/C/JS
+- **Shared transformer patterns** and chaos abstractions
+- **Homebrew-like experience** - robust, simple, "just works"
+- **Tooling comes last** - after core experience is rock-solid
 
 **Remember**: In Kinda-land, even the project manager embraces uncertainty. Make plans that are kinda organized, but always leave room for emergent weirdness.
 
