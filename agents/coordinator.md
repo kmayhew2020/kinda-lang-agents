@@ -2,16 +2,31 @@
 
 ## 🌳 Git Branching Model (All Agents)
 
-### Unified Branch Strategy
+### Complete Branch Hierarchy
 ```
-All kinda-lang agents MUST follow this git workflow:
+Production & Release Branches:
+main:                  Production-ready releases only, tagged versions
+release/v*:            Release candidates, stabilization before production
+develop:               Integration branch for ongoing development
 
-main branch:           Production-ready code, protected, requires PR approval
-feature/ branches:     All development work, one branch per task/issue
-hotfix/ branches:      Critical production fixes (rare)
+Working Branches:
+feature/*:             New features and enhancements (from develop)
+hotfix/*:              Critical production fixes (from main, merge to main + develop)
+bugfix/*:              Non-critical bug fixes (from develop)
 
-Flow: feature/task-X-description → PR → Review → Merge to main
-Policy: NEVER commit directly to main
+Flow: 
+- Normal: feature → develop → release → main
+- Hotfix: hotfix → main + develop
+- Release: develop → release/v* → main (tagged)
+```
+
+### Branch Policies
+```
+main:      PROTECTED - Only merge from release/* or hotfix/*
+develop:   PROTECTED - Only merge via PR from feature/* or bugfix/*
+release/*: PROTECTED - Only bug fixes allowed, no new features
+feature/*: Working branches, squash merge to develop
+hotfix/*:  Emergency fixes, merge to both main and develop
 ```
 
 ### Branch Naming Convention (MANDATORY)

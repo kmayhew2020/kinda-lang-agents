@@ -59,15 +59,24 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 2. If on main: CREATE A FEATURE BRANCH IMMEDIATELY
 3. If not on a feature branch: STOP and create one
 
-### Branch Strategy
+### Branch Strategy - GitFlow Model
 ```
-main branch:           Production-ready code, protected, NO DIRECT COMMITS
-feature/ branches:     ALL development work (even tiny fixes)
-hotfix/ branches:      Critical production fixes
+BRANCH HIERARCHY:
+main:                  Production releases only (tagged versions)
+develop:               Integration branch for features
+release/v*:            Release preparation and stabilization
+feature/*:             New features (branch from develop)
+bugfix/*:              Bug fixes (branch from develop)
+hotfix/*:              Emergency production fixes (branch from main)
 
-Flow: ALWAYS feature/task-name → PR → Review → main
-Naming: feature/task-{number}-{description}
-Policy: Every single change needs a branch and PR - NO EXCEPTIONS
+FLOW FOR FEATURES:
+1. Branch from develop: git checkout develop && git checkout -b feature/task-XX
+2. Work on feature branch
+3. PR to develop (not main!)
+4. After review: Merge to develop
+5. Periodically: develop → release/v* → main
+
+NEVER commit directly to main or develop!
 ```
 
 ### ⚠️ AUTOMATIC CHECKS (RUN THESE CONSTANTLY):
@@ -85,26 +94,37 @@ git checkout -b feature/task-XX-description
 git stash pop             # Restore changes
 ```
 
-### Branch Lifecycle
-1. **Branch Creation**: `git checkout main && git pull && git checkout -b feature/task-X-description`
+### Feature Branch Lifecycle (Most Common)
+1. **Branch Creation**: 
+   ```bash
+   git checkout develop && git pull origin develop
+   git checkout -b feature/task-X-description
+   ```
 2. **Development**: Regular commits with descriptive messages
 3. **Push**: `git push -u origin feature/task-X-description`
-4. **PR Creation**: `gh pr create` with clear title and description
+4. **PR Creation**: `gh pr create --base develop` (target develop, not main!)
 5. **Review**: Wait for reviewer approval
-6. **Merge**: Squash and merge via GitHub (preserves history)
+6. **Merge**: Squash merge to develop
 7. **MANDATORY CLEANUP**: 
    ```bash
-   git checkout main                    # Return to main
-   git pull origin main                  # Get latest changes
-   git branch -d feature/task-X-description  # Delete local feature branch
+   git checkout develop                 # Return to develop
+   git pull origin develop               # Get latest changes
+   git branch -d feature/task-X         # Delete local feature branch
    git status                           # MUST show clean working tree
    ```
 
+### Hotfix Branch Lifecycle (Emergency Only)
+1. **Branch from main**: `git checkout main && git pull && git checkout -b hotfix/critical-issue`
+2. **Fix issue**: Minimal changes only
+3. **Test thoroughly**: Must not break production
+4. **PR to main**: `gh pr create --base main`
+5. **After merge**: Also merge to develop to keep in sync
+
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
-[ ] PR merged to main
+[ ] PR merged to develop (or main for hotfixes)
 [ ] Local feature branch deleted
-[ ] Currently on main branch
+[ ] Currently on develop branch (or main for hotfixes)
 [ ] git status shows clean working tree
 [ ] Ready for next task
 ```
