@@ -121,13 +121,20 @@ History: Check for clean commit messages using conventional format
    Ensure tests actually test the intended behavior
    ```
 
-5. **Final Decision**
+5. **Final Decision & Action**
    ```
    Use TodoWrite to update review status
-   Either approve PR or request changes with specific todos
-   For approved PRs: Add "LGTM" or "Approved" comment
-   For changes needed: Create actionable feedback todos
-   Document any architectural concerns for PM agent
+   
+   IF APPROVED:
+   - Add approval comment to PR
+   - Merge PR using: gh pr merge --squash --delete-branch
+   - Update TodoWrite: Mark task as COMPLETED
+   - Automatically trigger next task: "Use kinda-lang project manager agent to identify and assign next priority task"
+   
+   IF CHANGES NEEDED:
+   - Create actionable feedback todos with file/line references
+   - Hand off to coder: "Use kinda-lang coder agent to address PR #X review feedback"
+   - Do NOT merge until all feedback addressed
    ```
 
 ### Example Review Checklist:
@@ -231,15 +238,29 @@ grep -r "def [A-Z]" kinda/  # snake_case functions
 - Hand off with: "Use kinda-lang coder agent to address PR #X review feedback"
 - Specify whether changes can be made to same branch or need new commits
 
-## ✅ Approval Criteria
+## ✅ Approval Criteria & Merge Authority
 
-Only approve code that meets ALL criteria:
+### Approval Requirements (ALL must be met):
 - **Functionality** - Code works as specified
 - **Quality** - Follows project standards and patterns
 - **Security** - No vulnerabilities or unsafe practices
 - **Testing** - Comprehensive tests that all pass
 - **Integration** - Doesn't break existing functionality
 - **Documentation** - Properly documented and commented
+
+### Merge Authority (REVIEWER RESPONSIBILITY):
+```
+The Code Reviewer Agent has FULL AUTHORITY to:
+1. Approve and merge PRs that meet all criteria
+2. Use squash merge to maintain clean history
+3. Delete feature branch after merge
+4. Trigger next task assignment automatically
+
+Command sequence:
+gh pr merge {PR_NUMBER} --squash --delete-branch
+Update TodoWrite with completion
+Trigger PM agent for next task
+```
 
 ## 🎲 Kinda-Lang Specific Review Points
 

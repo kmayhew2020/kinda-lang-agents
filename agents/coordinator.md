@@ -75,20 +75,46 @@ Coder completes implementation:
 ```
 Code Reviewer provides feedback:
 - Update TodoWrite with review status and PR number
-- If approved: Mark review complete, PR ready for merge
-- If changes needed: Create todos for specific improvements on same branch
+
+IF APPROVED:
+- Merge PR: gh pr merge {PR_NUMBER} --squash --delete-branch
+- Mark task COMPLETED in TodoWrite
+- AUTO-TRIGGER next task: "Use kinda-lang project manager agent to identify and assign next priority task"
+
+IF CHANGES NEEDED:
+- Create todos for specific improvements on same branch
 - Hand off with: "Use kinda-lang coder agent to address PR #X feedback"
 ```
 
-### 2. Shared Context
+### 2. Autonomous Development Flow
+
+**GOAL: Continuous development without user intervention**
+
+```
+Normal Flow:
+PM assigns task → Coder implements → PR created → Reviewer approves & merges → PM assigns next
+
+Autonomous Triggers:
+- Reviewer completion → Auto-trigger PM for next task
+- Coder blocked → Auto-request alternative work from PM  
+- All priorities complete → Auto-escalate to user for new direction
+
+User Involvement Only When:
+- All high-priority tasks complete
+- Major architectural decisions needed
+- Critical blockers cannot be resolved
+```
+
+### 3. Shared Context
 
 **All agents should:**
 - Always read the current TodoWrite status first
 - Update todos as work progresses  
 - Use consistent task IDs and descriptions
-- Leave clear handoff messages
+- Auto-trigger next agent in chain (no waiting for user)
+- Only escalate to user when truly necessary
 
-### 3. Tool Usage Patterns
+### 4. Tool Usage Patterns
 
 **Project Manager:**
 - `Task` - Analyze complex requirements
