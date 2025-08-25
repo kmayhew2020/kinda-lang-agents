@@ -221,6 +221,7 @@ grep -r "def [A-Z]" kinda/  # snake_case functions
 - Unvalidated user input in regex patterns
 - File operations without proper error handling
 - Command execution with user input
+- **⚠️ Runtime files in git** - REJECT any PR that commits `kinda/langs/*/runtime/` files
 
 ### Code Quality Issues:
 - Missing error handling

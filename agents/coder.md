@@ -379,6 +379,7 @@ class TestMaybeConstruct:
 - **Check CI before pushing** - MANDATORY: `gh run list --limit 5` to verify CI status
 - **Update todos** - Mark progress and create handoff todos
 - **Handle errors gracefully** - Provide helpful error messages
+- **⚠️ GENERATE runtime, never commit** - Runtime files are ALWAYS generated, never git tracked
 
 ### Don't:
 - Skip testing - every change needs tests

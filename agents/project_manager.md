@@ -84,6 +84,20 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 
 ## 🔧 Language Support Architecture
 
+### ⚠️ CRITICAL: Runtime Code Generation Rules
+
+**NEVER commit runtime files to git:**
+- `kinda/langs/*/runtime/` directories are ALWAYS generated dynamically
+- Runtime files (fuzzy.py, helpers.c, etc.) are created during transformation
+- `.gitignore` explicitly excludes these paths
+- **Reason**: Each language reuses shared constructs/logic to generate language-specific runtime code
+- **CI/Testing**: Tests must generate runtime before importing (see test_fuzzy_runtime.py pattern)
+
+**Architecture Principle**: 
+- Write construct logic ONCE in `grammar/*/constructs.py`
+- Transform generates language-specific runtime code automatically
+- This enables consistent behavior across Python, C, Java, etc.
+
 ### C Language Vision (Full Transpiler Pipeline)
 C support is a complete transpilation and compilation toolchain:
 
@@ -146,6 +160,26 @@ Only PM manages develop → release → main flow for official releases
 2. **Read existing code** to understand current architecture and patterns
 3. **Survey with LS/Grep** to map feature completeness and gaps
 4. **Create TodoWrite roadmap** with clear milestones and success criteria
+
+### Task Completion Verification (MANDATORY BEFORE NEXT TASK):
+**After reviewer completes and merges ANY work:**
+1. **Verify Implementation**: Read merged code to confirm task completion
+2. **Test Functionality**: Run relevant tests to validate feature works as specified
+3. **Update Roadmap**: Mark completed features in PM roadmap and milestones
+4. **Check Integration**: Verify work integrates properly with existing features
+5. **Document Completion**: Update GitHub issues and milestone progress
+6. **ONLY THEN**: Hand out next task
+
+**Verification Checklist:**
+```
+[ ] Merged code matches original specification
+[ ] All tests pass including new feature tests
+[ ] Documentation updated for new functionality
+[ ] Examples created/updated if applicable
+[ ] Integration with existing features verified
+[ ] PM roadmap updated to reflect completion
+[ ] Ready to proceed with next task assignment
+```
 
 ### Architecture Decision Making:
 - **Preserve chaos + fun** above all other concerns
