@@ -37,30 +37,48 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 
 ## 🛠️ Current & Planned Features
 
-### ✅ Implemented/In Progress
-- **Transformer Pipeline** - regex → runtime stubs
-- **Core Constructs**: `~kinda int` (fuzzed ±1), `~sorta print` (probabilistic), `~sometimes` blocks
+### ✅ Implemented & Completed
+- **Transformer Pipeline** - regex → runtime stubs with robust parsing
+- **Core Constructs**: 
+  - `~kinda int` (fuzzed ±1) 
+  - `~sorta print` (probabilistic) with **robust string-aware parsing** ✅ Task #37
+  - `~sometimes` blocks (50% probability)
+  - `~maybe` blocks (60% probability) ✅ Task #44  
+  - `~kinda binary` (three-state: 1/-1/0 with configurable probabilities) ✅ Task #45
 - **CLI Runner** - `kinda run file.knda`, `kinda interpret`, `kinda examples`
-- **Test Harness** - pytest with fuzziness validation
+- **Test Harness** - pytest with comprehensive coverage and fuzziness validation
 - **Cross-platform CI** - Ubuntu/macOS/Windows, Python 3.8-3.12
+- **Enhanced Documentation** - Updated examples, syntax reference, and CLI help
 
 ### 🎯 Planned Roadmap
 
-**Near-term (v0.3.x):**
-- `~maybe` construct (60% probability execution)  
-- Enhanced fuzzy constructs (`~kinda float`, `~kinda string`)
-- Statistical test tooling (run N iterations → behavior distribution)
+**Current (v0.3.0): Python Implementation Completion**
+**Strategic Focus**: Thin slice completion - depth over breadth
+- **Production-Ready Error Handling**: Graceful parsing failures, clear error messages
+- **Complete Test Coverage**: 95%+ coverage, edge cases, integration scenarios
+- **Polish Existing Features**: Optimize runtime, improve CLI UX, documentation
+- **Developer Experience**: Installation reliability, troubleshooting guides
 
-**Mid-term (v0.4.x):**
-- **Personality Configs**: Optimist, Cynic, Trickster, Pedantic modes
-- **Chaos Knobs**: Seeded randomness, entropy levels, test/production modes
-- **Fuzzy Control Flow**: `~maybe while`, `~kinda if`
+**Near-term (v0.4.0): Enhanced Constructs & Features** 
+- **Enhanced fuzzy constructs**: `~kinda float`, `~kinda string`, `~kinda bool`
+- **Fuzzy Control Flow**: `~maybe while`, `~kinda if`, `orMaybe` else clauses
+- **Statistical test tooling**: run N iterations → behavior distribution analysis
 - **CLI UX Upgrades**: compilation flags, linting, debug modes
 
-**Long-term (v1.0+):**
-- **C Language Full Transpiler**: Complete .knda → C compilation pipeline with executable output
-- **Multi-language Support**: Java, JavaScript scaffolding following C transpiler model
-- **Fuzzy Data Structures**: "sorta dict", "kinda list" with emergent behaviors  
+**Mid-term (v0.5.0): C Language Full Transpiler**
+**Complete Pipeline**: `.knda → Parse → Transform → Generate C → Add Headers → Compile → Link → Executable`
+- **C Code Generation**: Transform all kinda constructs to equivalent C code
+- **Dependency Management**: Auto-include headers, manage system dependencies  
+- **Compilation Pipeline**: Integrate gcc/clang compilation into kinda toolchain
+- **Makefile Integration**: Provide makefile targets and build system integration
+- **Cross-platform Support**: Linux, macOS, Windows compilation
+- **Toolchain Installation**: Auto-install compilers and development tools
+
+**Long-term (v0.6.0+): Ecosystem & Extensions**
+- **Personality Profile System**: Optimist, Cynic, Trickster, Pedantic modes
+- **Chaos Knobs**: Seeded randomness, entropy levels, test/production modes  
+- **Multi-language Support**: Java, JavaScript transpilers following C model
+- **Fuzzy Data Structures**: "sorta dict", "kinda list" with emergent behaviors
 - **Community Extensions**: installable personalities, fuzz modules
 - **Chaos Arena**: statistical analysis, game-like benchmark outputs
 
