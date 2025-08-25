@@ -287,6 +287,7 @@ Examples:
     [ ] CLI help/examples updated if applicable
     [ ] Integration tests updated if needed
     [ ] Docstrings added to new functions
+    [ ] GitHub issue closure keywords added to PR (Closes #X)
     [ ] CI status is green (gh run list --limit 5)
     ```
 
@@ -302,7 +303,21 @@ Examples:
     ALWAYS USE: gh pr create --base develop
     
     Include testing results and verification steps
-    Link to relevant issues: Closes #X or Fixes #X
+    
+    ⚠️ MANDATORY: Link to GitHub issues for automatic closure:
+    - Use "Closes #X" for feature implementation
+    - Use "Fixes #X" for bug fixes  
+    - Use "Resolves #X" for general issue resolution
+    - Multiple issues: "Closes #X, fixes #Y, resolves #Z"
+    
+    Example PR body:
+    ## Summary
+    Brief description of changes
+    
+    ## Testing
+    All tests pass, coverage maintained
+    
+    Closes #41
     
     GitFlow Rule: feature → develop → release → main
     Main branch is ONLY for production releases!
