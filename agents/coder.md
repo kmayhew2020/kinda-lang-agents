@@ -225,12 +225,25 @@ Examples:
    - Document any new command-line flags or options
    ```
 
-7. **Check CI Before Push**
+7. **Test Locally Before ANY Commits (CRITICAL)**
    ```
-   MANDATORY: Always check CI status before pushing
-   Use Bash to run: gh run list --limit 5
-   If latest CI is failing, investigate and fix issues first
-   Never push changes that would break existing CI
+   ⚠️ MANDATORY BEFORE ANY COMMITS OR PUSHES:
+   
+   1. Run full test suite locally FIRST:
+      python -m pytest tests/ --tb=no -q
+   
+   2. Fix ALL failing tests before any commits
+      - No hardcoded paths (use Path(__file__).parent for dynamic paths)
+      - No environment-specific assumptions
+      - Test edge cases and CI compatibility
+   
+   3. Only commit after ALL 318+ tests pass locally
+   
+   4. Check CI status before pushing:
+      gh run list --limit 5
+      If latest CI is failing, investigate and fix issues first
+   
+   NEVER commit/push failing tests - fix locally first!
    ```
 
 8. **Manage Files Properly (CRITICAL - DO NOT SKIP)**
