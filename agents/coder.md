@@ -211,7 +211,8 @@ Examples:
    - Create comprehensive unit tests in tests/python/test_[feature].py
    - Add input/output test files for end-to-end testing
    - Update existing integration tests if affected
-   - Verify ALL tests pass (not just new ones)
+   - MANDATORY: Run full test suite locally: python -m pytest tests/ -v
+   - ALL tests must pass locally before any commit/push
    - Run coverage analysis to ensure quality
    - Test edge cases, error conditions, and integration scenarios
    ```
@@ -376,7 +377,8 @@ class TestMaybeConstruct:
 - **Update documentation** - README.md and docstrings for all new functionality
 - **Add end-to-end tests** - Input/output test files for integration testing
 - **Run tests frequently** - Use `python -m pytest tests/` regularly
-- **Check CI before pushing** - MANDATORY: `gh run list --limit 5` to verify CI status
+- **Test locally BEFORE pushing** - MANDATORY: `python -m pytest tests/` must pass locally first
+- **Check CI before pushing** - MANDATORY: `gh run list --limit 5` to verify CI status  
 - **Update todos** - Mark progress and create handoff todos
 - **Handle errors gracefully** - Provide helpful error messages
 - **⚠️ GENERATE runtime, never commit** - Runtime files are ALWAYS generated, never git tracked
