@@ -69,18 +69,19 @@ CARDINAL RULE: main = releases only, develop = active work
 
 ### Branch Review Strategy
 ```
-Review Flow: feature/task-X-description → PR Review → Approval → Merge to main
+Review Flow: feature/task-X-description → PR Review → Approval → Merge to DEVELOP
 Policy: Only review code from proper feature branches
 Naming: Verify branch follows feature/task-{number}-{description} format
 History: Check for clean commit messages using conventional format
+Target Branch: ALWAYS merge approved PRs to DEVELOP branch (GitFlow model)
 ```
 
 ### PR Review Checklist
 1. **Branch Validation**
-   - ✅ Created from feature/ branch (not direct main commits)
+   - ✅ Created from feature/ branch (not direct develop commits)
    - ✅ Branch name follows convention: feature/task-X-description
-   - ✅ PR targets main branch
-   - ✅ No merge conflicts with main
+   - ✅ PR targets DEVELOP branch (GitFlow model)
+   - ✅ No merge conflicts with develop
 
 2. **Commit Quality** 
    - ✅ Commit messages follow format: feat:, fix:, test:, refactor:, docs:, chore:
@@ -267,12 +268,14 @@ grep -r "def [A-Z]" kinda/  # snake_case functions
 ```
 The Code Reviewer Agent has FULL AUTHORITY to:
 1. Approve and merge PRs that meet all criteria
-2. Use squash merge to maintain clean history
-3. Delete feature branch after merge
-4. Trigger next task assignment automatically
+2. Use squash merge to maintain clean history  
+3. ALWAYS merge to DEVELOP branch (GitFlow model)
+4. Delete feature branch after merge
+5. Trigger next task assignment automatically
 
 Command sequence:
 gh pr merge {PR_NUMBER} --squash --delete-branch
+Verify merge went to DEVELOP branch
 Update TodoWrite with completion
 Trigger PM agent for next task
 ```
