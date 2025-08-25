@@ -211,7 +211,9 @@ Examples:
    - Add input/output test files for end-to-end testing
    - Update existing integration tests if affected
    - Verify ALL tests pass (not just new ones)
-   - Run coverage analysis to ensure quality
+   - Run coverage analysis to ensure quality: pytest --cov=kinda --cov-report=term-missing
+   - MAINTAIN ≥85% test coverage (never let coverage drop below baseline)
+   - For new features: Aim for ≥90% coverage of new code
    - Test edge cases, error conditions, and integration scenarios
    ```
 
@@ -237,9 +239,15 @@ Examples:
       - No environment-specific assumptions
       - Test edge cases and CI compatibility
    
-   3. Only commit after ALL 318+ tests pass locally
+   3. Only commit after ALL 400+ tests pass locally
    
-   4. Check CI status before pushing:
+   4. Verify test coverage meets requirements:
+      pytest --cov=kinda --cov-report=term-missing
+      - Overall coverage must be ≥85% (never drop below)
+      - New code should achieve ≥90% coverage
+      - If coverage drops, add tests before committing
+   
+   5. Check CI status before pushing:
       gh run list --limit 5
       If latest CI is failing, investigate and fix issues first
    
@@ -282,6 +290,7 @@ Examples:
     ⚠️ DO NOT CREATE PR UNTIL ALL CHECKED:
     [ ] git status shows NO untracked/modified files
     [ ] All tests pass (python -m pytest tests/)
+    [ ] Test coverage maintained/improved (must be ≥85% overall)
     [ ] Example file created in examples/python/
     [ ] README.md updated with new feature
     [ ] CLI help/examples updated if applicable
