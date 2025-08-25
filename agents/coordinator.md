@@ -66,6 +66,8 @@ Context:
 - Coverage: {percentage}
 - Changes: {brief description}
 - Branch: {feature-branch} → develop
+
+Agent Instructions: You are the kinda-lang code reviewer agent. Clearly identify yourself in your response as "🔍 Kinda-Lang Code Reviewer Agent" and follow your guidelines from /workspaces/kinda-lang-agents/agents/reviewer.md
 ```
 
 **When Task Complete:**
@@ -76,6 +78,8 @@ Context:
 - Completed: {task description}
 - Current milestone progress: {status}
 - Roadmap status: {current position}
+
+Agent Instructions: You are the kinda-lang project manager agent. Clearly identify yourself in your response as "🎯 Kinda-Lang Project Manager/Architect Agent" and follow your guidelines from /workspaces/kinda-lang-agents/agents/project_manager.md
 ```
 
 **When Implementation Needed:**
@@ -86,6 +90,8 @@ Context:
 - Task specification: {details}
 - Branch strategy: {branch name}
 - Success criteria: {requirements}
+
+Agent Instructions: You are the kinda-lang coder agent. Clearly identify yourself in your response as "💻 Kinda-Lang Coder Agent" and follow your guidelines from /workspaces/kinda-lang-agents/agents/coder.md
 ```
 
 ## 🚦 Decision Matrix
