@@ -47,15 +47,25 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 ### 🎯 Planned Roadmap
 
 **Near-term (v0.3.x):**
-- `~maybe` construct (60% probability execution)  
-- Enhanced fuzzy constructs (`~kinda float`, `~kinda string`)
+- ✅ `~maybe` construct (60% probability execution) - COMPLETED
+- **New Fuzzy Constructs (Priority Queue):**
+  1. `~ish` - Fuzzy values & comparisons (42~ish, score ~ish 100)
+  2. `~welp` - Graceful fallbacks (api_call() ~welp "default") 
+  3. `~yolo` - Skip safety checks (~yolo delete_files())
+  4. `~oops` - Deliberate chaos injection (~oops connection.close())
+  5. `~meh` - Low-effort mode (~meh optimize_performance())
 - Statistical test tooling (run N iterations → behavior distribution)
 
 **Mid-term (v0.4.x):**
+- **Fuzzy Control Flow**: `~maybe while`, `~kinda if`
+- **Enhanced Data Types**: `~kinda float`, `~kinda string` 
 - **Personality Configs**: Optimist, Cynic, Trickster, Pedantic modes
 - **Chaos Knobs**: Seeded randomness, entropy levels, test/production modes
-- **Fuzzy Control Flow**: `~maybe while`, `~kinda if`
 - **CLI UX Upgrades**: compilation flags, linting, debug modes
+
+**Backlog Constructs (Future Consideration):**
+- `~sure` - Overconfident execution (95% success, famous last words)
+- `~nah` - Contrarian logic with uncertainty
 
 **Long-term (v1.0+):**
 - **Multi-language Support**: C, Java, JavaScript scaffolding
