@@ -62,20 +62,21 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 ### Branch Strategy - GitFlow Model
 ```
 BRANCH HIERARCHY:
-main:                  Production releases only (tagged versions)
-develop:               Integration branch for features
-release/v*:            Release preparation and stabilization
-feature/*:             New features (branch from develop)
-bugfix/*:              Bug fixes (branch from develop)
-hotfix/*:              Emergency production fixes (branch from main)
+main:                  RELEASES ONLY - latest stable version (tagged releases)
+develop:               PRIMARY WORK BRANCH - integration branch for all development
+release/v*:            Release preparation and stabilization (from develop)
+feature/*:             New features (branch from develop, merge to develop)
+bugfix/*:              Bug fixes (branch from develop, merge to develop)
+hotfix/*:              Emergency production fixes (branch from main, merge to main + develop)
 
-FLOW FOR FEATURES:
-1. Branch from develop: git checkout develop && git checkout -b feature/task-XX
-2. Work on feature branch
-3. PR to develop (not main!)
+FLOW FOR FEATURES (STANDARD WORKFLOW):
+1. Branch from develop: git checkout develop && git pull origin develop && git checkout -b feature/task-XX
+2. Work on feature branch with regular commits
+3. PR to develop (NEVER to main!)
 4. After review: Merge to develop
-5. Periodically: develop → release/v* → main
+5. Release cycle: develop → release/v* → main (PM manages this)
 
+CARDINAL RULE: main = releases only, develop = active work
 NEVER commit directly to main or develop!
 ```
 
@@ -102,7 +103,7 @@ git stash pop             # Restore changes
    ```
 2. **Development**: Regular commits with descriptive messages
 3. **Push**: `git push -u origin feature/task-X-description`
-4. **PR Creation**: `gh pr create --base develop` (target develop, not main!)
+4. **PR Creation**: `gh pr create --base develop` (ALWAYS target develop, NEVER main!)
 5. **Review**: Wait for reviewer approval
 6. **Merge**: Squash merge to develop
 7. **MANDATORY CLEANUP**: 
@@ -170,16 +171,16 @@ Examples:
 
 1. **Create Feature Branch (MANDATORY)**
    ```
-   ALWAYS work in feature branches, NEVER commit directly to main
-   Use Bash to create new feature branch from main
-   git checkout main && git pull origin main
+   ALWAYS work in feature branches, NEVER commit directly to main OR develop
+   Use Bash to create new feature branch from DEVELOP (not main!)
+   git checkout develop && git pull origin develop
    git checkout -b feature/task-{number}-{description}
    
    Branch names MUST follow the naming convention:
    - Task #37: feature/task-37-sorta-print-parsing
    - Task #38: feature/task-38-test-coverage-improvement
    - Task #39: feature/task-39-error-handling-enhancement
-   ALL PRs must be from feature branches to main
+   ALL PRs must be from feature branches to DEVELOP (not main!)
    ```
 
 2. **Understand the Requirements**
@@ -299,7 +300,7 @@ Examples:
 ```markdown
 For implementing Task #XX ~maybe construct:
 
-1. Create feature branch: `git checkout main && git pull && git checkout -b feature/task-XX-maybe-construct`
+1. Create feature branch: `git checkout develop && git pull origin develop && git checkout -b feature/task-XX-maybe-construct`
 2. Read existing constructs in grammar/python/constructs.py
 3. Add ~maybe definition following the pattern of ~sorta and ~sometimes
 4. Update grammar/python/matchers.py with ~maybe parsing logic
@@ -314,7 +315,7 @@ For implementing Task #XX ~maybe construct:
 13. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
 14. If CI failing, investigate and fix before proceeding
 15. Push branch: `git push -u origin feature/task-XX-maybe-construct`
-16. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+16. Create PR: `gh pr create --base develop --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"` 
 17. Update TodoWrite with completion status
 18. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
@@ -394,6 +395,45 @@ Remember kinda-lang principles:
 - **Tilde prefix** - all constructs start with ~
 - **Playful attitude** - error messages and behavior should have personality
 - **Simple syntax** - keep constructs easy to understand and use
+
+## 🔧 Language Support Vision
+
+### C Language Support (Full Transpiler Pipeline)
+C support is NOT just code generation - it's a complete transpilation and compilation toolchain:
+
+**Complete Pipeline Flow:**
+```
+.knda files → Parse → Transform → Generate C code → Add headers → Compile → Link → Executable
+```
+
+**C Transpiler Requirements:**
+- **Parse .knda files** into AST representation
+- **Transform constructs** into equivalent C code with required includes
+- **Generate complete C source files** with all necessary headers and dependencies
+- **Auto-include system dependencies** like `<stdio.h>`, `<stdlib.h>`, `<time.h>` for random functions
+- **Trigger compilation pipeline** using system compiler (gcc, clang, etc.)
+- **Handle linking** of any required libraries  
+- **Output executable** ready to run
+
+**Makefile Integration:**
+- Provide makefile targets for kinda → C compilation
+- Support `make build` and `make install` workflows
+- Handle dependency management and compiler flags
+- Enable seamless integration into existing C build systems
+
+**Installation & Dependencies:**
+- Auto-install required C compilers (gcc/clang) during kinda-lang installation
+- Manage system dependencies and development headers
+- Provide clear error messages for missing build tools
+- Support cross-platform compilation (Linux, macOS, Windows)
+
+**Implementation Priority:**
+1. C code generation (basic constructs → C equivalents)  
+2. Header management and dependency resolution
+3. Compilation pipeline integration (gcc/clang invocation)
+4. Makefile template generation
+5. Cross-platform build support
+6. Advanced construct mapping (probability → C random functions)
 
 ### Common Patterns:
 ```python

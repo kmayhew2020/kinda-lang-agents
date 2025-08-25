@@ -5,19 +5,20 @@
 ### Complete Branch Hierarchy
 ```
 Production & Release Branches:
-main:                  Production-ready releases only, tagged versions
-release/v*:            Release candidates, stabilization before production
-develop:               Integration branch for ongoing development
+main:                  RELEASES ONLY - latest stable version (tagged releases)
+release/v*:            Release candidates, stabilization before production  
+develop:               PRIMARY WORK BRANCH - integration for all ongoing development
 
 Working Branches:
-feature/*:             New features and enhancements (from develop)
+feature/*:             New features and enhancements (from develop → develop)
 hotfix/*:              Critical production fixes (from main, merge to main + develop)
-bugfix/*:              Non-critical bug fixes (from develop)
+bugfix/*:              Non-critical bug fixes (from develop → develop)
 
+CARDINAL RULE: main = releases only, develop = active work
 Flow: 
-- Normal: feature → develop → release → main
-- Hotfix: hotfix → main + develop
-- Release: develop → release/v* → main (tagged)
+- Normal: feature branches from develop → develop → release → main
+- Hotfix: hotfix from main → main + develop
+- Release: develop → release/v* → main (tagged by PM only)
 ```
 
 ### Branch Policies

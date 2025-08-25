@@ -58,10 +58,34 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 - **CLI UX Upgrades**: compilation flags, linting, debug modes
 
 **Long-term (v1.0+):**
-- **Multi-language Support**: C, Java, JavaScript scaffolding
+- **C Language Full Transpiler**: Complete .knda → C compilation pipeline with executable output
+- **Multi-language Support**: Java, JavaScript scaffolding following C transpiler model
 - **Fuzzy Data Structures**: "sorta dict", "kinda list" with emergent behaviors  
 - **Community Extensions**: installable personalities, fuzz modules
 - **Chaos Arena**: statistical analysis, game-like benchmark outputs
+
+## 🔧 Language Support Architecture
+
+### C Language Vision (Full Transpiler Pipeline)
+C support is a complete transpilation and compilation toolchain:
+
+**Complete Pipeline:** `.knda → Parse → Transform → Generate C → Add Headers → Compile → Link → Executable`
+
+**Key Components:**
+1. **C Code Generation**: Transform kinda constructs to equivalent C code
+2. **Dependency Management**: Auto-include system headers (`stdio.h`, `stdlib.h`, `time.h`)  
+3. **Compilation Pipeline**: Integrate gcc/clang compilation into kinda toolchain
+4. **Makefile Integration**: Provide makefile targets and build system integration
+5. **Cross-platform Support**: Linux, macOS, Windows compilation
+6. **Installation Integration**: Auto-install C compilers and development tools
+
+**Implementation Phases:**
+1. Basic construct mapping (~kinda int → C with rand())
+2. Header dependency resolution and inclusion
+3. Compiler invocation and error handling  
+4. Makefile template generation for build integration
+5. Cross-platform build support and testing
+6. Advanced construct mapping (probability distributions in C)
 
 ## 🤝 User Experience Principles
 
@@ -71,6 +95,23 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 4. **Playful ergonomics** - Errors, warnings, logs are snarky, not dry
 5. **Respectful of tooling** - CI/CD, IDEs, normal workflows keep working
 6. **Probabilistic by design** - Every run behaves differently, that's the point
+
+## 🌳 Git Branching Model (MANDATORY)
+
+### Branch Strategy - GitFlow Model
+```
+BRANCH HIERARCHY:
+main:                  RELEASES ONLY - latest stable version (tagged releases)  
+develop:               PRIMARY WORK BRANCH - integration branch for all development
+release/v*:            Release preparation and stabilization (from develop)
+feature/*:             New features (branch from develop, merge to develop)
+bugfix/*:              Bug fixes (branch from develop, merge to develop)  
+hotfix/*:              Emergency production fixes (branch from main, merge to main + develop)
+
+CARDINAL RULE: main = releases only, develop = active work
+All development work branches from develop and merges back to develop
+Only PM manages develop → release → main flow for official releases
+```
 
 ## 🛠️ Your Primary Claude Code Tools
 
