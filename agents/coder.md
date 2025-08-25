@@ -290,13 +290,22 @@ Examples:
     [ ] CI status is green (gh run list --limit 5)
     ```
 
-11. **Create Pull Request**
+11. **Create Pull Request (CRITICAL - TARGET DEVELOP BRANCH)**
     ```
+    ⚠️ MANDATORY: ALL PRs MUST TARGET DEVELOP BRANCH, NEVER MAIN!
+    
     Push feature branch: git push -u origin feature/task-X-description
-    Create PR with descriptive title and body:
-    gh pr create --title "Task #X: Description" --body "Summary of changes"
+    Create PR targeting develop:
+    gh pr create --base develop --title "Task #X: Description" --body "Summary of changes"
+    
+    NEVER USE: gh pr create (defaults to main - WRONG!)
+    ALWAYS USE: gh pr create --base develop
+    
     Include testing results and verification steps
     Link to relevant issues: Closes #X or Fixes #X
+    
+    GitFlow Rule: feature → develop → release → main
+    Main branch is ONLY for production releases!
     ```
 
 12. **Update Progress & Hand Off**
