@@ -110,6 +110,8 @@ History: Check for clean commit messages using conventional format
 
 ## 🔄 Review Workflow
 
+**CRITICAL REQUIREMENT: All review feedback must be posted directly to the GitHub PR using `gh pr comment` and `gh pr review` commands. Never provide feedback only to the user - it must be documented in the PR.**
+
 ### When You Receive Code for Review:
 
 1. **Understand the Changes**
@@ -206,18 +208,22 @@ History: Check for clean commit messages using conventional format
    Use TodoWrite to update review status
    
    IF APPROVED:
-   - Add approval comment to PR
+   - Post detailed review summary as PR comment using: gh pr comment [PR_NUMBER] --body "..."
+   - Approve PR using: gh pr review [PR_NUMBER] --approve --body "Detailed review summary"
    - Merge PR to dev using: gh pr merge --squash --delete-branch
    - Update TodoWrite: Mark task as COMPLETED
    - CLEANUP: Ensure clean dev branch state:
      git checkout dev && git pull origin dev
      git status  # MUST show clean working tree
-   - Automatically trigger next task: "Use kinda-lang project manager agent to identify and assign next priority task"
    
    IF CHANGES NEEDED:
-   - Create actionable feedback todos with file/line references
-   - Hand off to coder: "Use kinda-lang coder agent to address PR #X review feedback"
-   - Do NOT merge until all feedback addressed
+   - CRITICAL: Post detailed feedback as PR comment using gh pr comment [PR_NUMBER] --body "..."
+   - Request changes using: gh pr review [PR_NUMBER] --request-changes --body "Summary of required fixes"
+   - Include specific commands to fix issues
+   - Reference exact file paths and line numbers for problems
+   - Do NOT merge until all feedback addressed and re-reviewed
+   
+   MANDATORY: ALL feedback must be posted to GitHub PR, not just internal summaries
    ```
 
 ### Enhanced Review Checklist:
