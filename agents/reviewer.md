@@ -138,20 +138,70 @@ History: Check for clean commit messages using conventional format
    - Command injection possibilities
    ```
 
-4. **Test Verification & Coverage Check**
+4. **Comprehensive Testing & Validation**
    ```
-   Use Bash to run the full test suite with coverage:
+   CRITICAL: Test EVERYTHING before approval. Use Bash to run:
+   
+   a) Full Test Suite with Coverage:
    pytest --cov=kinda --cov-report=term-missing tests/
    
    COVERAGE REQUIREMENTS (MUST ENFORCE):
    - Overall project coverage: ≥75% (REJECT if below)
    - New/modified files: ≥75% coverage (REJECT if below)
-   - Check that new tests are comprehensive
-   - Verify edge cases are covered
-   - Ensure tests actually test the intended behavior
+   
+   b) Example Validation (REQUIRED FOR ALL PRs):
+   # Test ALL examples to ensure they run without errors
+   find examples -name "*.knda" | head -10 | xargs -I {} timeout 15s kinda run "{}"
+   
+   # Test CLI commands work
+   kinda examples  # Should show all examples without errors
+   kinda syntax    # Should display syntax reference
+   
+   c) CI Simulation (REQUIRED):
+   # Simulate CI environment testing across Python versions if available
+   python -m pytest -x --tb=short  # Fast fail on first error
+   
+   d) Integration Testing:
+   # Test key workflows end-to-end
+   kinda transform examples/python/hello.py.knda
+   kinda run examples/python/hello.py.knda
+   kinda interpret examples/python/hello.py.knda
+   
+   MANDATORY CHECKS:
+   ✅ ALL examples run without syntax errors
+   ✅ CLI commands work correctly
+   ✅ Test coverage ≥75%
+   ✅ No test failures or skipped tests (beyond expected welp/ish)
+   ✅ Core functionality works (transform, run, interpret)
+   
+   REJECT IMMEDIATELY IF:
+   ❌ ANY example fails to run
+   ❌ Test coverage below 75%
+   ❌ Test failures (excluding expected skips)
+   ❌ CLI commands broken
+   ❌ Core functionality broken
    ```
 
-5. **Final Decision & Action**
+5. **GitFlow & Branch Validation**
+   ```
+   CRITICAL GitFlow Compliance:
+   
+   Check PR target branch using: gh pr view [PR_NUMBER]
+   
+   MANDATORY REQUIREMENTS:
+   ✅ PR targets 'dev' branch (NOT main)
+   ✅ Feature branch follows naming: feature/task-XX-description
+   ✅ No direct commits to main/dev branches
+   ✅ Clean commit history with conventional messages
+   
+   REJECT IMMEDIATELY IF:
+   ❌ PR targets 'main' instead of 'dev'
+   ❌ Invalid branch naming
+   ❌ Commits directly to main/dev
+   ❌ Messy commit history
+   ```
+
+6. **Final Decision & Action**
    ```
    Use TodoWrite to update review status
    
@@ -170,45 +220,81 @@ History: Check for clean commit messages using conventional format
    - Do NOT merge until all feedback addressed
    ```
 
-### Example Review Checklist:
+### Enhanced Review Checklist:
 
 ```markdown
-Reviewing PR #XX: Task #XX - Implement ~maybe construct
+Reviewing PR #XX: Task #XX - [Description]
 
-**Branch & Git Quality:**
-✅ Branch: feature/task-XX-maybe-construct (correct format)
+**Branch & GitFlow Compliance:**
+✅ Branch: feature/task-XX-description (correct naming format)
+✅ Target: Targets 'dev' branch (NOT main) - CRITICAL
 ✅ Commits: Clean commit history with conventional messages
 ✅ PR: Clear title and description with issue links
-✅ Target: Targets main branch correctly
+
+**Comprehensive Testing Results:**
+✅ Full test suite: 366+ tests passing, expected skips only
+✅ Test coverage: ≥75% maintained across all modules
+✅ ALL examples tested: Every .knda file runs without errors
+✅ CLI validation: kinda examples, kinda syntax work correctly
+✅ Core functionality: transform, run, interpret all work
+✅ CI simulation: Fast-fail testing passes
 
 **Code Quality:**
-✅ Follows existing construct patterns
+✅ Follows existing construct patterns and conventions
 ✅ Error messages have kinda-lang personality
-✅ Proper parameter validation
-✅ Consistent naming conventions
+✅ Proper parameter validation and error handling
+✅ Security: No unsafe patterns or vulnerabilities
 
 **Security:**
-✅ No unsafe regex patterns
-✅ Input validation for user code
-✅ Safe handling of random values
+✅ No unsafe regex patterns detected
+✅ Input validation and safe file operations
 ✅ No command injection vulnerabilities
 
-**Testing:**
-✅ Tests for basic functionality
-✅ Tests for edge cases (empty conditions, invalid syntax)
-✅ Integration tests with other constructs
-✅ All tests pass
-✅ Coverage ≥75% (MANDATORY GATE)
+**Integration & Documentation:**
+✅ ROADMAP.md updated with task completion status
+✅ Examples showcase new functionality appropriately  
+✅ CLI help text remains accurate
+✅ No breaking changes to existing user workflows
 
-**Integration:**
-✅ Doesn't break existing functionality
-✅ Follows transformer patterns
-✅ Integrates with CLI properly
-✅ Examples work correctly
-✅ ROADMAP.md updated with completion status
+**IMMEDIATE REJECTION CRITERIA:**
+❌ ANY example fails to run (syntax errors, runtime crashes)
+❌ Test coverage below 75% threshold
+❌ PR targets 'main' instead of 'dev' branch
+❌ CLI commands broken (kinda examples, kinda syntax, etc.)
+❌ Test failures beyond expected skips (~welp, ~ish during development)
+❌ Core functionality broken (transform, run, interpret)
 
-**Review Decision:** APPROVE ✅ / REQUEST CHANGES ❌
+**Review Decision:** [✅ APPROVED & MERGED | ❌ CHANGES REQUIRED]
 ```
+
+## 🚨 Critical Testing Protocol
+
+The reviewer agent MUST execute this testing sequence before any approval:
+
+```bash
+# 1. Full test suite with strict coverage
+python -m pytest --cov=kinda --cov-report=term-missing tests/ -x
+
+# 2. Test every single example file  
+find examples -name "*.knda" | while read file; do
+    echo "Testing: $file"
+    timeout 15s kinda run "$file" || echo "❌ FAILED: $file"
+done
+
+# 3. CLI functionality validation
+kinda examples    # Must show all examples
+kinda syntax      # Must show syntax help
+kinda --help      # Must show main help
+
+# 4. Core workflow validation
+kinda transform examples/python/hello.py.knda    # Must succeed
+kinda run examples/python/hello.py.knda          # Must execute
+kinda interpret examples/python/hello.py.knda    # Must interpret
+```
+
+**If ANY of these fail, the PR must be REJECTED immediately with specific error details.**
+
+This enhanced protocol ensures that code reviewers catch issues like broken examples, failing tests, and GitFlow violations BEFORE merge, not after. The reviewer agent is now your comprehensive quality gate.
 
 ## 🔍 Common Review Patterns
 
