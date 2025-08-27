@@ -239,6 +239,13 @@ Reviewing PR #XX: Task #XX - [Description]
 ✅ Core functionality: transform, run, interpret all work
 ✅ CI simulation: Fast-fail testing passes
 
+**File Structure & Organization:**
+✅ All .knda files in proper language folders (examples/python/, examples/c/)
+✅ Correct file extensions (.py.knda in python/, .c.knda in c/)
+✅ No unsupported language extensions (.js.knda, .java.knda, etc.)
+✅ CLI paths follow examples/{language}/ format
+✅ Directory structure matches established conventions
+
 **Code Quality:**
 ✅ Follows existing construct patterns and conventions
 ✅ Error messages have kinda-lang personality
@@ -263,6 +270,7 @@ Reviewing PR #XX: Task #XX - [Description]
 ❌ CLI commands broken (kinda examples, kinda syntax, etc.)
 ❌ Test failures beyond expected skips (~welp, ~ish during development)
 ❌ Core functionality broken (transform, run, interpret)
+❌ File structure violations (see File Organization Standards below)
 
 **Review Decision:** [✅ APPROVED & MERGED | ❌ CHANGES REQUIRED]
 ```
@@ -290,11 +298,102 @@ kinda --help      # Must show main help
 kinda transform examples/python/hello.py.knda    # Must succeed
 kinda run examples/python/hello.py.knda          # Must execute
 kinda interpret examples/python/hello.py.knda    # Must interpret
+
+# 5. File Structure & Naming Validation (CRITICAL)
+# All .knda files MUST be in language folders
+find examples -name "*.knda" -not -path "examples/python/*" -not -path "examples/c/*" | head -5
+# ↑ Should return NO results - if any files found, REJECT immediately
+
+# Verify extensions match language folders  
+find examples/python -name "*.knda" | grep -v "\.py\.knda$" | head -3
+find examples/c -name "*.knda" 2>/dev/null | grep -v "\.c\.knda$" | head -3
+# ↑ Both should return NO results - if any files found, REJECT immediately
+
+# Check for unsupported language extensions
+find examples -name "*.js.knda" -o -name "*.java.knda" -o -name "*.kt.knda" | head -3
+# ↑ Should return NO results - if any found, REJECT immediately
+
+# Validate CLI paths are correct
+kinda examples | grep -v -E "examples/(python|c)/" | grep "examples/" | head -3
+# ↑ Should return NO results - if any found, REJECT immediately
 ```
 
 **If ANY of these fail, the PR must be REJECTED immediately with specific error details.**
 
 This enhanced protocol ensures that code reviewers catch issues like broken examples, failing tests, and GitFlow violations BEFORE merge, not after. The reviewer agent is now your comprehensive quality gate.
+
+## 📁 File Organization Standards
+
+The reviewer MUST enforce these file structure conventions:
+
+### **Supported Languages & Extensions**
+```
+VALID EXTENSIONS (language-specific):
+✅ .py.knda     # Python kinda-lang files
+✅ .c.knda      # C kinda-lang files (v0.4.0+)
+✅ .knda        # Generic/language-agnostic (rare, legacy only)
+
+INVALID EXTENSIONS:
+❌ .js.knda     # JavaScript not yet supported
+❌ .java.knda   # Java not yet supported
+❌ .kt.knda     # Any other language extensions
+❌ .py          # Missing .knda suffix
+❌ .kinda       # Wrong extension format
+```
+
+### **Required Directory Structure**
+```
+examples/
+├── python/                    # Python-specific examples (REQUIRED)
+│   ├── individual/           # Single construct demos
+│   ├── comprehensive/        # Multi-construct scenarios
+│   ├── hello.py.knda        # Basic examples
+│   └── *.py.knda            # All Python examples here
+├── c/                        # C examples (v0.4.0+, FUTURE)
+│   ├── individual/
+│   ├── comprehensive/
+│   └── *.c.knda
+└── [NO OTHER FOLDERS]        # No loose files in examples/
+```
+
+### **File Structure Validation Commands**
+```bash
+# CRITICAL: Run these commands during review
+
+# 1. Verify all .knda files are in language folders
+find examples -name "*.knda" -not -path "examples/python/*" -not -path "examples/c/*" | head -5
+# ↑ Should return NO results (empty)
+
+# 2. Verify proper file extensions by language
+find examples/python -name "*.knda" | grep -v "\.py\.knda$" | head -5
+# ↑ Should return NO results for Python folder
+
+find examples/c -name "*.knda" 2>/dev/null | grep -v "\.c\.knda$" | head -5  
+# ↑ Should return NO results for C folder (when it exists)
+
+# 3. Check for invalid language extensions
+find examples -name "*.js.knda" -o -name "*.java.knda" -o -name "*.kt.knda" | head -5
+# ↑ Should return NO results (unsupported languages)
+
+# 4. Validate CLI can find all examples correctly
+kinda examples | grep -E "examples/(python|c)/" | wc -l
+# ↑ Should match total number of examples displayed
+```
+
+### **MANDATORY REJECTIONS for File Structure:**
+❌ **Any .knda files outside language folders** (examples/python/, examples/c/)
+❌ **Wrong extensions** (.py instead of .py.knda, .kinda instead of .knda)
+❌ **Unsupported language extensions** (.js.knda, .java.knda, etc.)
+❌ **Mixed extensions in language folders** (.c.knda in examples/python/)
+❌ **Missing language prefixes** (bare .knda files in examples/python/)
+
+### **CLI Path Validation**
+The reviewer MUST verify that all examples shown by `kinda examples` use correct paths:
+```bash
+kinda examples | grep -E "examples/(python|c)/" && echo "✅ All paths correct"
+```
+
+If ANY path doesn't follow `examples/{language}/` format, REJECT immediately.
 
 ## 🔍 Common Review Patterns
 
