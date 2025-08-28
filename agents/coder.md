@@ -63,20 +63,20 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 ```
 BRANCH HIERARCHY:
 main:                  Production releases only (tagged versions)
-develop:               Integration branch for features
+dev:                   Integration branch for features
 release/v*:            Release preparation and stabilization
-feature/*:             New features (branch from develop)
-bugfix/*:              Bug fixes (branch from develop)
+feature/*:             New features (branch from dev)
+bugfix/*:              Bug fixes (branch from dev)
 hotfix/*:              Emergency production fixes (branch from main)
 
 FLOW FOR FEATURES:
-1. Branch from develop: git checkout develop && git checkout -b feature/task-XX
+1. Branch from dev: git checkout dev && git checkout -b feature/task-XX
 2. Work on feature branch
-3. PR to develop (not main!)
-4. After review: Merge to develop
-5. Periodically: develop → release/v* → main
+3. PR to dev (not main!)
+4. After review: Merge to dev
+5. Periodically: dev → release/v* → main
 
-NEVER commit directly to main or develop!
+NEVER commit directly to main or dev!
 ```
 
 ### ⚠️ AUTOMATIC CHECKS (RUN THESE CONSTANTLY):
@@ -97,18 +97,18 @@ git stash pop             # Restore changes
 ### Feature Branch Lifecycle (Most Common)
 1. **Branch Creation**: 
    ```bash
-   git checkout develop && git pull origin develop
+   git checkout dev && git pull origin dev
    git checkout -b feature/task-X-description
    ```
 2. **Development**: Regular commits with descriptive messages
 3. **Push**: `git push -u origin feature/task-X-description`
-4. **PR Creation**: `gh pr create --base develop` (target develop, not main!)
+4. **PR Creation**: `gh pr create --base dev` (target dev, not main!)
 5. **Review**: Wait for reviewer approval
-6. **Merge**: Squash merge to develop
+6. **Merge**: Squash merge to dev
 7. **MANDATORY CLEANUP**: 
    ```bash
-   git checkout develop                 # Return to develop
-   git pull origin develop               # Get latest changes
+   git checkout dev                     # Return to dev
+   git pull origin dev                  # Get latest changes
    git branch -d feature/task-X         # Delete local feature branch
    git status                           # MUST show clean working tree
    ```
@@ -118,13 +118,13 @@ git stash pop             # Restore changes
 2. **Fix issue**: Minimal changes only
 3. **Test thoroughly**: Must not break production
 4. **PR to main**: `gh pr create --base main`
-5. **After merge**: Also merge to develop to keep in sync
+5. **After merge**: Also merge to dev to keep in sync
 
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
-[ ] PR merged to develop (or main for hotfixes)
+[ ] PR merged to dev (or main for hotfixes)
 [ ] Local feature branch deleted
-[ ] Currently on develop branch (or main for hotfixes)
+[ ] Currently on dev branch (or main for hotfixes)
 [ ] git status shows clean working tree
 [ ] Ready for next task
 ```
@@ -237,12 +237,14 @@ Examples:
       - No environment-specific assumptions
       - Test edge cases and CI compatibility
    
-   3. Only commit after ALL 318+ tests pass locally
+   3. Only commit after ALL tests pass locally
    
-   4. Check CI status before pushing:
+   4. AFTER committing and pushing, THEN check CI status:
+      git push -u origin feature/branch-name
       gh run list --limit 5
-      If latest CI is failing, investigate and fix issues first
+      Monitor CI to ensure it passes remotely
    
+   WORKFLOW: Test locally → Commit → Push → Monitor CI
    NEVER commit/push failing tests - fix locally first!
    ```
 
@@ -290,25 +292,42 @@ Examples:
     [ ] CI status is green (gh run list --limit 5)
     ```
 
-11. **Create Pull Request (CRITICAL - TARGET DEVELOP BRANCH)**
+11. **Create Pull Request (CRITICAL - TARGET DEV BRANCH)**
     ```
-    ⚠️ MANDATORY: ALL PRs MUST TARGET DEVELOP BRANCH, NEVER MAIN!
+    ⚠️ MANDATORY: ALL PRs MUST TARGET DEV BRANCH, NEVER MAIN!
     
     Push feature branch: git push -u origin feature/task-X-description
-    Create PR targeting develop:
-    gh pr create --base develop --title "Task #X: Description" --body "Summary of changes"
+    Create PR targeting dev:
+    gh pr create --base dev --title "Task #X: Description" --body "Summary of changes"
     
     NEVER USE: gh pr create (defaults to main - WRONG!)
-    ALWAYS USE: gh pr create --base develop
+    ALWAYS USE: gh pr create --base dev
     
     Include testing results and verification steps
     Link to relevant issues: Closes #X or Fixes #X
     
-    GitFlow Rule: feature → develop → release → main
+    GitFlow Rule: feature → dev → release → main
     Main branch is ONLY for production releases!
     ```
 
-12. **Update Progress & Hand Off**
+12. **Verify CI Passes Before Handoff (CRITICAL)**
+    ```
+    ⚠️ MANDATORY BEFORE HANDING OFF TO REVIEWER:
+    
+    After creating PR, WAIT for CI to complete:
+    gh run list --limit 5
+    
+    Check that CI shows:
+    completed   success   [your commit message]   Kinda CI   feature/branch   push
+    
+    DO NOT hand off to reviewer until CI shows "completed" and "success"
+    If CI fails, fix issues locally and push again
+    Only proceed to code review when CI is green
+    
+    WORKFLOW: Push → Create PR → Wait for CI Success → Hand Off to Reviewer
+    ```
+
+13. **Update Progress & Hand Off**
     ```
     Use TodoWrite to mark tasks complete
     Create handoff todos for code review
