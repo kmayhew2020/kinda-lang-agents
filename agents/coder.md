@@ -113,12 +113,25 @@ git stash pop             # Restore changes
    git status                           # MUST show clean working tree
    ```
 
+### Release Branch Lifecycle (MANDATORY FOR RELEASES)
+1. **Branch from develop**: `git checkout develop && git pull && git checkout -b release/v*.*.*`
+2. **Version updates**: Update version numbers in pyproject.toml and any version tests
+3. **Full testing**: Run complete test suite - ALL tests must pass
+4. **CI validation**: Ensure all CI builds are green before proceeding
+5. **PR to main**: `gh pr create --base main` with full testing verification
+6. **Merge to main**: After approval and final CI check
+7. **Tag release**: `git tag -a v*.*.* -m "Release v*.*.* - Description"`
+8. **Push tag**: `git push origin v*.*.*`
+9. **GitHub Release**: `gh release create v*.*.* --title "v*.*.* - Title" --notes "Release notes"`
+10. **Merge back to develop**: Ensure develop has all release changes
+
 ### Hotfix Branch Lifecycle (Emergency Only)
 1. **Branch from main**: `git checkout main && git pull && git checkout -b hotfix/critical-issue`
 2. **Fix issue**: Minimal changes only
 3. **Test thoroughly**: Must not break production
 4. **PR to main**: `gh pr create --base main`
 5. **After merge**: Also merge to develop to keep in sync
+6. **Tag and release**: Follow steps 7-9 from Release Branch Lifecycle
 
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
