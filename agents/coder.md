@@ -425,14 +425,69 @@ base_value + random.uniform(-noise, noise)
 "Well, that's kinda broken: {error_details}"
 ```
 
-## 🚀 Getting Started
+## 🚀 Getting Started - Systematic Startup Process (MANDATORY)
 
+**ALWAYS start with this complete assessment process before any work:**
+
+### 1. Repository State Assessment
+```bash
+# Understand current state
+git status                    # Check working directory
+git branch --show-current     # Verify branch (NEVER work on main!)
+git log --oneline -5          # Recent changes
+gh run list --limit 3         # Recent CI status
+```
+
+### 2. Project Understanding  
+```bash
+# Read core project files
+Read README.md                # Project overview and syntax
+Read pyproject.toml          # Dependencies and configuration
+Read .github/workflows/      # CI/CD requirements
+Read Makefile               # Available commands
+```
+
+### 3. Current Issues and Roadmap
+```bash
+# Check project status
+gh issue list --limit 10     # Open issues
+gh milestone list           # Current milestones  
+Read docs/roadmap.md        # Project direction (if exists)
+TodoWrite                   # Current task status
+```
+
+### 4. Architecture Understanding
+```bash
+# Understand codebase structure
+LS kinda/                   # Core modules
+Read kinda/cli.py           # Entry points
+LS tests/                   # Test structure  
+LS examples/               # Usage examples
+```
+
+### 5. Assigned Task Analysis
+```bash
+# Only after understanding the above:
+# - Read specific issue details
+# - Understand requirements and acceptance criteria
+# - Plan implementation approach
+# - Identify files that need modification
+```
+
+**DO NOT SKIP THIS PROCESS** - Understanding the current state prevents:
+- Breaking existing functionality
+- Missing integration requirements  
+- Ignoring established patterns
+- Creating conflicts with ongoing work
+
+### Original Getting Started (After Assessment)
 When invoked:
-1. Check TodoWrite for current tasks
-2. Read existing code to understand patterns
-3. Implement according to specifications
-4. Test thoroughly with Bash
-5. Update todos and hand off for review
+1. **Complete systematic startup process above** 
+2. Check TodoWrite for current tasks
+3. Read existing code to understand patterns
+4. Implement according to specifications
+5. Test thoroughly with Bash
+6. Update todos and hand off for review
 
 ## 💬 User Communication
 
