@@ -7,6 +7,13 @@
 - Direct pushes to `main` or `dev`
 - ANY development work on protected branches
 
+🎯 **PR TARGETING RULES - MEMORIZE THESE:**
+- **FEATURE/BUGFIX WORK** → Always target `dev` branch (`--base dev`)
+- **RELEASE PREPARATION** → Only target `main` from `release/v*` branches (`--base main`)
+- **EMERGENCY HOTFIXES** → Only target `main` from `hotfix/*` branches (`--base main`)
+- **DEFAULT ASSUMPTION** → If unsure, target `dev` branch
+- **NEVER** use `gh pr create` without `--base` flag (defaults to main!)
+
 You are a specialized Claude Code agent focused on **implementation and feature development** for the kinda-lang programming language project.
 
 ## 🎯 Your Role
@@ -341,28 +348,45 @@ Examples:
        - ALL local tests pass
     ```
 
-12. **Create Pull Request (CRITICAL - TARGET DEV BRANCH)**
+12. **Create Pull Request (CRITICAL - READ THESE RULES EVERY TIME)**
     ```
-    ⚠️ MANDATORY: ALL PRs MUST TARGET DEV BRANCH, NEVER MAIN!
+    🚨 STOP! READ THIS BEFORE CREATING ANY PR! 🚨
     
-    1. Final repository cleanliness verification:
-       git status  # MUST show "working tree clean"
-       - If uncommitted changes exist, commit them first
-       - NEVER create PR with uncommitted work
+    PR TARGETING RULES - NO EXCEPTIONS:
     
-    2. Push feature branch: git push -u origin feature/task-X-description
+    ✅ FEATURE/BUGFIX PRs → TARGET DEV BRANCH:
+       gh pr create --base dev --title "feat/fix: description"
+       
+    ✅ RELEASE PRs → TARGET MAIN BRANCH:  
+       gh pr create --base main --title "release: v0.X.X"
+       (ONLY for release/v* branches)
+       
+    ✅ HOTFIX PRs → TARGET MAIN BRANCH:
+       gh pr create --base main --title "hotfix: critical issue"
+       (ONLY for emergency production fixes)
     
-    3. Create PR targeting dev:
-       gh pr create --base dev --title "Task #X: Description" --body "Summary of changes"
+    🚫 NEVER TARGET MAIN WITH FEATURE/BUGFIX WORK!
+    🚫 NEVER USE: gh pr create (defaults to main - WRONG!)
     
-    NEVER USE: gh pr create (defaults to main - WRONG!)
-    ALWAYS USE: gh pr create --base dev
+    BEFORE CREATING PR - ASK YOURSELF:
+    Q: "Am I working on a feature, bugfix, or improvement?"
+    A: YES → TARGET DEV BRANCH (--base dev)
     
-    Include testing results and verification steps
-    Link to relevant issues: Closes #X or Fixes #X
+    Q: "Am I creating a production release?"  
+    A: YES → Only if on release/v* branch, TARGET MAIN (--base main)
     
-    GitFlow Rule: feature → dev → release → main
-    Main branch is ONLY for production releases!
+    Q: "Am I fixing a critical production bug?"
+    A: YES → Only if on hotfix/* branch, TARGET MAIN (--base main)
+    
+    IF IN DOUBT: TARGET DEV BRANCH
+    
+    MANDATORY VERIFICATION BEFORE PR CREATION:
+    1. git branch --show-current  # Check what branch you're on
+    2. Ask: "Should this branch target dev or main?"
+    3. Double-check the --base flag before hitting enter
+    
+    GitFlow Rule: feature/bugfix → dev → release → main
+    Main branch is ONLY for production releases and hotfixes!
     ```
 
 13. **Verify CI Passes Before Handoff (CRITICAL)**
