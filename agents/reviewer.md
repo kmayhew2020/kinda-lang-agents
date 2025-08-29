@@ -163,8 +163,11 @@ History: Check for clean commit messages using conventional format
    ```
    Use TodoWrite to update review status
    
+   MANDATORY: ALWAYS POST REVIEW FINDINGS TO PR USING:
+   gh pr comment {PR_NUMBER} --body "review findings content"
+   
    IF APPROVED:
-   - Add approval comment to PR
+   - Post approval comment to PR with summary of review
    - Merge PR using: gh pr merge --squash --delete-branch
    - Update TodoWrite: Mark task as COMPLETED
    - CLEANUP: Ensure clean branch state:
@@ -176,6 +179,8 @@ History: Check for clean commit messages using conventional format
    DO NOT WAIT - TRIGGER PM AUTOMATICALLY
    
    IF CHANGES NEEDED:
+   - POST ALL FINDINGS TO PR using gh pr comment with complete adversarial review results
+   - Include specific attack vectors, file/line references, and required fixes
    - Create actionable feedback todos with file/line references
    - Hand off to coder: "Use kinda-lang coder agent to address PR #X review feedback"
    - Do NOT merge until all feedback addressed
@@ -203,6 +208,13 @@ Based on both standard review AND adversarial break attempts
 - Any successful break attempt MUST be fixed before approval
 - Convert every break into a specific protection requirement
 - No exceptions - security and robustness are non-negotiable
+
+### 5. **MANDATORY: Document All Findings in PR**
+- **ALWAYS post review findings to the actual PR using `gh pr comment`**
+- Include complete adversarial testing results with attack vectors
+- Provide ready-to-implement fix code for each vulnerability
+- Create permanent audit trail for all security issues found
+- Never rely only on internal analysis - make it visible in the PR
 
 ### Example Review Checklist:
 
