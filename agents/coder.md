@@ -292,7 +292,24 @@ Examples:
     [ ] CI status is green (gh run list --limit 5)
     ```
 
-11. **Create Pull Request (CRITICAL - TARGET DEV BRANCH)**
+11. **Pre-Push CI Validation (MANDATORY)**
+    ```
+    ⚠️ BEFORE PUSHING ANY BRANCH - CHECK CI STATUS:
+    
+    1. Check current CI status on main:
+       gh run list --limit 3
+       
+    2. Ensure main branch CI is currently "completed" and "success"
+    
+    3. If main CI is failing, STOP and investigate:
+       - Recent commits may have broken CI
+       - Your changes might conflict with failing CI
+       - Wait for main CI to be fixed before proceeding
+       
+    4. Only push if main CI shows: "completed success"
+    ```
+
+12. **Create Pull Request (CRITICAL - TARGET DEV BRANCH)**
     ```
     ⚠️ MANDATORY: ALL PRs MUST TARGET DEV BRANCH, NEVER MAIN!
     
@@ -310,24 +327,24 @@ Examples:
     Main branch is ONLY for production releases!
     ```
 
-12. **Verify CI Passes Before Handoff (CRITICAL)**
+13. **Verify CI Passes Before Handoff (CRITICAL)**
     ```
     ⚠️ MANDATORY BEFORE HANDING OFF TO REVIEWER:
     
     After creating PR, WAIT for CI to complete:
     gh run list --limit 5
     
-    Check that CI shows:
+    Check that YOUR branch CI shows:
     completed   success   [your commit message]   Kinda CI   feature/branch   push
     
     DO NOT hand off to reviewer until CI shows "completed" and "success"
     If CI fails, fix issues locally and push again
     Only proceed to code review when CI is green
     
-    WORKFLOW: Push → Create PR → Wait for CI Success → Hand Off to Reviewer
+    WORKFLOW: Check Main CI → Push → Create PR → Wait for Feature CI Success → Hand Off to Reviewer
     ```
 
-13. **Update Progress & Hand Off**
+14. **Update Progress & Hand Off**
     ```
     Use TodoWrite to mark tasks complete
     Create handoff todos for code review
@@ -352,12 +369,13 @@ For implementing Task #XX ~maybe construct:
 10. Update README.md with ~maybe syntax and 60% probability behavior
 11. Run full test suite with `python -m pytest tests/`
 12. Commit tests & docs: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
-13. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
-14. If CI failing, investigate and fix before proceeding
+13. **MANDATORY Pre-Push CI Check**: `gh run list --limit 3` - ensure main CI is passing
+14. **MANDATORY Local Testing**: `python -m pytest tests/` - ensure all tests pass locally
 15. Push branch: `git push -u origin feature/task-XX-maybe-construct`
-16. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
-17. Update TodoWrite with completion status
-18. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
+16. Create PR: `gh pr create --base dev --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+17. **MANDATORY Feature CI Check**: `gh run list --limit 5` - ensure YOUR branch CI passes
+18. Update TodoWrite with completion status
+19. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
 
 ## 🔍 Code Patterns to Follow
