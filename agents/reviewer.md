@@ -168,10 +168,13 @@ History: Check for clean commit messages using conventional format
    
    IF APPROVED:
    - Post approval comment to PR with summary of review
-   - Merge PR using: gh pr merge --squash --delete-branch
+   - MANDATORY: Check PR target branch and merge appropriately:
+     * Feature branches (feature/*): gh pr merge --squash --delete-branch --base dev
+     * Hotfix branches (hotfix/*): gh pr merge --squash --delete-branch --base main
+     * NEVER merge directly to main unless explicitly a hotfix
    - Update TodoWrite: Mark task as COMPLETED
    - CLEANUP: Ensure clean branch state:
-     git checkout develop && git pull origin develop  
+     git checkout dev && git pull origin dev  
      git status  # MUST show clean working tree
    - MANDATORY IMMEDIATE HANDOFF:
      "Use kinda-lang project manager agent to identify and assign next priority task"
