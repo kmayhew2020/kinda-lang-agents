@@ -281,6 +281,7 @@ Examples:
     ```
     ⚠️ DO NOT CREATE PR UNTIL ALL CHECKED:
     [ ] git status shows NO untracked/modified files
+    [ ] Code formatting passes (black --check .)
     [ ] All tests pass (python -m pytest tests/)
     [ ] Example file created in examples/python/
     [ ] README.md updated with new feature
