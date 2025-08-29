@@ -122,9 +122,11 @@ git stash pop             # Restore changes
 
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
+[ ] Repository is clean (git status shows "working tree clean")
+[ ] All local tests pass (python -m pytest tests/)
 [ ] PR merged to dev (or main for hotfixes)
 [ ] Local feature branch deleted
-[ ] Currently on dev branch (or main for hotfixes)
+[ ] Currently on dev branch (or main for hotfixes)  
 [ ] git status shows clean working tree
 [ ] Ready for next task
 ```
@@ -296,20 +298,30 @@ Examples:
     ```
     ⚠️ BEFORE PUSHING ANY BRANCH - COMPLETE LOCAL CI VALIDATION:
     
-    1. Check current CI status on main:
+    1. Ensure repository is clean:
+       git status  # MUST show "working tree clean"
+       - If untracked files exist, decide: add/commit or delete
+       - If modified files exist, commit them
+       - NEVER push with uncommitted changes
+    
+    2. Check current CI status on main:
        gh run list --limit 3
        
-    2. Ensure main branch CI is currently "completed" and "success"
+    3. Ensure main branch CI is currently "completed" and "success"
     
-    3. Run FULL local test suite (simulate CI locally):
+    4. Run FULL local test suite (simulate CI locally):
        python -m pytest tests/ --tb=no -q
        
-    4. ALL tests must pass locally before pushing:
+    5. ALL tests must pass locally before pushing:
        - Fix any failing tests immediately
        - Do not push if any tests fail
        - Ensure your changes don't break existing functionality
        
-    5. Only push if:
+    6. Final repo cleanliness check:
+       git status  # MUST show "working tree clean"
+       
+    7. Only push if:
+       - Repository is completely clean
        - Main CI shows "completed success" 
        - ALL local tests pass
     ```
@@ -318,9 +330,15 @@ Examples:
     ```
     ⚠️ MANDATORY: ALL PRs MUST TARGET DEV BRANCH, NEVER MAIN!
     
-    Push feature branch: git push -u origin feature/task-X-description
-    Create PR targeting dev:
-    gh pr create --base dev --title "Task #X: Description" --body "Summary of changes"
+    1. Final repository cleanliness verification:
+       git status  # MUST show "working tree clean"
+       - If uncommitted changes exist, commit them first
+       - NEVER create PR with uncommitted work
+    
+    2. Push feature branch: git push -u origin feature/task-X-description
+    
+    3. Create PR targeting dev:
+       gh pr create --base dev --title "Task #X: Description" --body "Summary of changes"
     
     NEVER USE: gh pr create (defaults to main - WRONG!)
     ALWAYS USE: gh pr create --base dev
@@ -375,9 +393,11 @@ For implementing Task #XX ~maybe construct:
 11. Run full test suite with `python -m pytest tests/`
 12. Commit tests & docs: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
 13. **MANDATORY Pre-Push Validation**: 
+    - Verify repo clean: `git status` (must show "working tree clean")
     - Check main CI: `gh run list --limit 3` 
     - Run full test suite: `python -m pytest tests/ --tb=no -q`
     - Fix any failing tests before proceeding
+    - Final clean check: `git status`
 14. Push branch: `git push -u origin feature/task-XX-maybe-construct`
 15. Create PR: `gh pr create --base dev --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
 16. **MANDATORY Feature CI Check**: `gh run list --limit 5` - ensure YOUR branch CI passes
