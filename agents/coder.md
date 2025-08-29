@@ -294,19 +294,24 @@ Examples:
 
 11. **Pre-Push CI Validation (MANDATORY)**
     ```
-    ⚠️ BEFORE PUSHING ANY BRANCH - CHECK CI STATUS:
+    ⚠️ BEFORE PUSHING ANY BRANCH - COMPLETE LOCAL CI VALIDATION:
     
     1. Check current CI status on main:
        gh run list --limit 3
        
     2. Ensure main branch CI is currently "completed" and "success"
     
-    3. If main CI is failing, STOP and investigate:
-       - Recent commits may have broken CI
-       - Your changes might conflict with failing CI
-       - Wait for main CI to be fixed before proceeding
+    3. Run FULL local test suite (simulate CI locally):
+       python -m pytest tests/ --tb=no -q
        
-    4. Only push if main CI shows: "completed success"
+    4. ALL tests must pass locally before pushing:
+       - Fix any failing tests immediately
+       - Do not push if any tests fail
+       - Ensure your changes don't break existing functionality
+       
+    5. Only push if:
+       - Main CI shows "completed success" 
+       - ALL local tests pass
     ```
 
 12. **Create Pull Request (CRITICAL - TARGET DEV BRANCH)**
@@ -369,13 +374,15 @@ For implementing Task #XX ~maybe construct:
 10. Update README.md with ~maybe syntax and 60% probability behavior
 11. Run full test suite with `python -m pytest tests/`
 12. Commit tests & docs: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
-13. **MANDATORY Pre-Push CI Check**: `gh run list --limit 3` - ensure main CI is passing
-14. **MANDATORY Local Testing**: `python -m pytest tests/` - ensure all tests pass locally
-15. Push branch: `git push -u origin feature/task-XX-maybe-construct`
-16. Create PR: `gh pr create --base dev --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
-17. **MANDATORY Feature CI Check**: `gh run list --limit 5` - ensure YOUR branch CI passes
-18. Update TodoWrite with completion status
-19. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
+13. **MANDATORY Pre-Push Validation**: 
+    - Check main CI: `gh run list --limit 3` 
+    - Run full test suite: `python -m pytest tests/ --tb=no -q`
+    - Fix any failing tests before proceeding
+14. Push branch: `git push -u origin feature/task-XX-maybe-construct`
+15. Create PR: `gh pr create --base dev --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+16. **MANDATORY Feature CI Check**: `gh run list --limit 5` - ensure YOUR branch CI passes
+17. Update TodoWrite with completion status
+18. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
 
 ## 🔍 Code Patterns to Follow
