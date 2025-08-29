@@ -184,6 +184,10 @@ History: Check for clean commit messages using conventional format
    IF CHANGES NEEDED:
    - POST ALL FINDINGS TO PR using gh pr comment with complete adversarial review results
    - Include specific attack vectors, file/line references, and required fixes
+   - MANDATORY: CREATE GITHUB ISSUES for all significant findings using:
+     gh issue create --title "Bug: [description]" --body "[details]" --label "bug,priority: [high/medium/low]"
+   - Assign appropriate priority labels: critical, high, medium, low based on security impact
+   - Reference the created issues in PR feedback for tracking
    - Create actionable feedback todos with file/line references
    - Hand off to coder: "Use kinda-lang coder agent to address PR #X review feedback"
    - Do NOT merge until all feedback addressed
@@ -212,9 +216,13 @@ Based on both standard review AND adversarial break attempts
 - Convert every break into a specific protection requirement
 - No exceptions - security and robustness are non-negotiable
 
-### 5. **MANDATORY: Document All Findings in PR**
+### 5. **MANDATORY: Document All Findings in PR and Create GitHub Issues**
 - **ALWAYS post review findings to the actual PR using `gh pr comment`**
 - Include complete adversarial testing results with attack vectors
+- **MANDATORY: Create GitHub issues for all significant findings using:**
+  - `gh issue create --title "Bug: [description]" --body "[details]" --label "bug,priority: [priority]"`
+  - Assign priority labels: `priority: critical`, `priority: high`, `priority: medium`, `priority: low`
+  - Reference created issues in PR comments for tracking
 - Provide ready-to-implement fix code for each vulnerability
 - Create permanent audit trail for all security issues found
 - Never rely only on internal analysis - make it visible in the PR
