@@ -288,6 +288,7 @@ Examples:
     [ ] CLI help/examples updated if applicable
     [ ] Integration tests updated if needed
     [ ] Docstrings added to new functions
+    [ ] ROADMAP.md updated to reflect completed work
     [ ] CI status is green (gh run list --limit 5)
     ```
 
@@ -452,7 +453,7 @@ Read Makefile               # Available commands
 # Check project status
 gh issue list --limit 10     # Open issues
 gh milestone list           # Current milestones  
-Read docs/roadmap.md        # Project direction (if exists)
+Read ROADMAP.md             # Project direction and current priorities
 TodoWrite                   # Current task status
 ```
 
