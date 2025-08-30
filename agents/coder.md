@@ -63,20 +63,28 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 ```
 BRANCH HIERARCHY:
 main:                  Production releases only (tagged versions)
-develop:               Integration branch for features
-release/v*:            Release preparation and stabilization
-feature/*:             New features (branch from develop)
-bugfix/*:              Bug fixes (branch from develop)
+dev:                   Integration branch for features (NOT "develop")
+release/v*:            Release preparation and stabilization  
+feature/*:             New features (branch from dev)
+bugfix/*:              Bug fixes (branch from dev)
 hotfix/*:              Emergency production fixes (branch from main)
 
-FLOW FOR FEATURES:
-1. Branch from develop: git checkout develop && git checkout -b feature/task-XX
+FLOW FOR FEATURES AND FIXES:
+1. Branch from dev: git checkout dev && git checkout -b feature/task-XX
 2. Work on feature branch
-3. PR to develop (not main!)
-4. After review: Merge to develop
-5. Periodically: develop → release/v* → main
+3. PR to dev (NEVER to main!)
+4. After review: Merge to dev
+5. Periodically: dev → release/v* → main
 
-NEVER commit directly to main or develop!
+FLOW FOR HOTFIXES ONLY:
+1. Branch from main: git checkout main && git checkout -b hotfix/critical-issue
+2. Work on hotfix branch  
+3. PR to main (hotfixes only!)
+4. After review: Merge to main
+5. Also merge hotfix to dev to keep in sync
+
+⚠️ CRITICAL: ALL FEATURE/BUG PRs TARGET DEV, ONLY HOTFIXES TARGET MAIN
+NEVER commit directly to main or dev!
 ```
 
 ### ⚠️ AUTOMATIC CHECKS (RUN THESE CONSTANTLY):
@@ -97,24 +105,24 @@ git stash pop             # Restore changes
 ### Feature Branch Lifecycle (Most Common)
 1. **Branch Creation**: 
    ```bash
-   git checkout develop && git pull origin develop
+   git checkout dev && git pull origin dev
    git checkout -b feature/task-X-description
    ```
 2. **Development**: Regular commits with descriptive messages
 3. **Push**: `git push -u origin feature/task-X-description`
-4. **PR Creation**: `gh pr create --base develop` (target develop, not main!)
+4. **PR Creation**: `gh pr create --base dev` (target dev, not main!)
 5. **Review**: Wait for reviewer approval
-6. **Merge**: Squash merge to develop
+6. **Merge**: Squash merge to dev
 7. **MANDATORY CLEANUP**: 
    ```bash
-   git checkout develop                 # Return to develop
-   git pull origin develop               # Get latest changes
+   git checkout dev                     # Return to dev
+   git pull origin dev                   # Get latest changes
    git branch -d feature/task-X         # Delete local feature branch
    git status                           # MUST show clean working tree
    ```
 
 ### Release Branch Lifecycle (MANDATORY FOR RELEASES)
-1. **Branch from develop**: `git checkout develop && git pull && git checkout -b release/v*.*.*`
+1. **Branch from dev**: `git checkout dev && git pull && git checkout -b release/v*.*.*`
 2. **Version updates**: Update version numbers in pyproject.toml and any version tests
 3. **Full testing**: Run complete test suite - ALL tests must pass
 4. **CI validation**: Ensure all CI builds are green before proceeding
@@ -123,21 +131,21 @@ git stash pop             # Restore changes
 7. **Tag release**: `git tag -a v*.*.* -m "Release v*.*.* - Description"`
 8. **Push tag**: `git push origin v*.*.*`
 9. **GitHub Release**: `gh release create v*.*.* --title "v*.*.* - Title" --notes "Release notes"`
-10. **Merge back to develop**: Ensure develop has all release changes
+10. **Merge back to dev**: Ensure dev has all release changes
 
 ### Hotfix Branch Lifecycle (Emergency Only)
 1. **Branch from main**: `git checkout main && git pull && git checkout -b hotfix/critical-issue`
 2. **Fix issue**: Minimal changes only
 3. **Test thoroughly**: Must not break production
 4. **PR to main**: `gh pr create --base main`
-5. **After merge**: Also merge to develop to keep in sync
+5. **After merge**: Also merge to dev to keep in sync
 6. **Tag and release**: Follow steps 7-9 from Release Branch Lifecycle
 
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
-[ ] PR merged to develop (or main for hotfixes)
+[ ] PR merged to dev (or main for hotfixes only)
 [ ] Local feature branch deleted
-[ ] Currently on develop branch (or main for hotfixes)
+[ ] Currently on dev branch (or main for hotfixes)
 [ ] git status shows clean working tree
 [ ] Ready for next task
 ```
@@ -183,16 +191,16 @@ Examples:
 
 1. **Create Feature Branch (MANDATORY)**
    ```
-   ALWAYS work in feature branches, NEVER commit directly to main
-   Use Bash to create new feature branch from main
-   git checkout main && git pull origin main
+   ALWAYS work in feature branches, NEVER commit directly to main or dev
+   Use Bash to create new feature branch from dev
+   git checkout dev && git pull origin dev
    git checkout -b feature/task-{number}-{description}
    
    Branch names MUST follow the naming convention:
    - Task #37: feature/task-37-sorta-print-parsing
    - Task #38: feature/task-38-test-coverage-improvement
    - Task #39: feature/task-39-error-handling-enhancement
-   ALL PRs must be from feature branches to main
+   ALL PRs must be from feature branches to dev (NOT main!)
    ```
 
 2. **Understand the Requirements**
@@ -296,7 +304,7 @@ Examples:
     ```
     Push feature branch: git push -u origin feature/task-X-description
     Create PR with descriptive title and body:
-    gh pr create --title "Task #X: Description" --body "Summary of changes"
+    gh pr create --base dev --title "Task #X: Description" --body "Summary of changes"
     Include testing results and verification steps
     Link to relevant issues: Closes #X or Fixes #X
     ```
@@ -317,7 +325,7 @@ Examples:
 ```markdown
 For implementing Task #XX ~maybe construct:
 
-1. Create feature branch: `git checkout main && git pull && git checkout -b feature/task-XX-maybe-construct`
+1. Create feature branch: `git checkout dev && git pull && git checkout -b feature/task-XX-maybe-construct`
 2. Read existing constructs in grammar/python/constructs.py
 3. Add ~maybe definition following the pattern of ~sorta and ~sometimes
 4. Update grammar/python/matchers.py with ~maybe parsing logic
@@ -332,7 +340,7 @@ For implementing Task #XX ~maybe construct:
 13. **MANDATORY CI Check**: `gh run list --limit 5` - ensure CI is passing
 14. If CI failing, investigate and fix before proceeding
 15. Push branch: `git push -u origin feature/task-XX-maybe-construct`
-16. Create PR: `gh pr create --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
+16. Create PR: `gh pr create --base dev --title "Task #XX: Implement ~maybe construct" --body "## Summary\n- Adds ~maybe construct with 60% execution probability\n- Comprehensive test coverage\n- Follows existing construct patterns\n\n## Testing\n- All 126+ tests pass\n- New test suite covers edge cases"`
 17. Update TodoWrite with completion status
 18. Hand off to reviewer: "Use kinda-lang code reviewer agent to review PR #XX"
 ```
