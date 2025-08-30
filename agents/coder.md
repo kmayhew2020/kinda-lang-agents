@@ -219,14 +219,47 @@ Examples:
    - Test edge cases, error conditions, and integration scenarios
    ```
 
-6. **Documentation & Examples (MANDATORY for new features)**
+6. **📚 COMPREHENSIVE DOCUMENTATION (MANDATORY - NO EXCEPTIONS)**
    ```
-   REQUIRED for all new functionality:
-   - Create example file: examples/python/[feature]_example.py.knda
-   - Update README.md with new construct syntax and behavior
-   - Add docstrings to all new functions
-   - Update kinda examples command output if applicable
-   - Document any new command-line flags or options
+   🚨 ABSOLUTELY REQUIRED FOR ALL NEW FEATURES/CONSTRUCTS:
+   
+   1. README.md Updates:
+      - Add new construct to main feature table (line ~77-87)
+      - Include syntax example and probability/behavior description
+      - Update quick start examples if applicable
+   
+   2. API Documentation (docs/source/features.md):
+      - Add full section for new construct under "Core Fuzzy Constructs"
+      - Include code examples, behavior description, use cases
+      - Document probability percentages and variance ranges
+      - Show integration with other constructs
+   
+   3. Language-Specific Documentation (docs/syntax/python.md):
+      - Add construct to appropriate syntax section
+      - Show Python-specific indentation and colon usage
+      - Include complete code block examples
+      - Document any Python-specific behaviors
+   
+   4. Function Documentation:
+      - Add comprehensive docstrings to ALL new functions
+      - Include parameter descriptions, return values, examples
+      - Document exceptions and error conditions
+   
+   5. Example Files:
+      - Create examples/python/individual/[construct]_example.py.knda
+      - Create comprehensive examples showing real usage
+      - Test examples work with `kinda run examples/python/individual/[construct]_example.py.knda`
+   
+   🚨 DOCUMENTATION VERIFICATION CHECKLIST:
+   [ ] README.md main feature table updated
+   [ ] docs/source/features.md has complete construct section
+   [ ] docs/syntax/python.md has Python syntax documentation
+   [ ] All new functions have detailed docstrings
+   [ ] Example file created and tested
+   [ ] All documentation examples tested and working
+   
+   ⚠️ FAILURE TO COMPLETE ALL DOCUMENTATION = INCOMPLETE TASK
+   ⚠️ REVIEWER WILL REJECT PR IF ANY DOCUMENTATION MISSING
    ```
 
 7. **🚨 CI VERIFICATION - ABSOLUTE REQUIREMENT (NO EXCEPTIONS)**
@@ -352,7 +385,7 @@ Examples:
     Use TodoWrite to mark tasks complete
     Create handoff todos for code review
     Provide clear context for reviewer with PR link
-    Wait for approval before considering task complete
+    ONLY after completing ALL items in the Completion Checklist above, trigger reviewer
     ```
 
 ### Example Implementation Workflow:
@@ -490,6 +523,32 @@ Example:
 ```
 💻 Kinda-Lang Coder Agent here. I encountered an issue with the ~maybe construct implementation. The existing pattern in matchers.py expects a specific regex format, but the specification is unclear about conditional syntax. Should I follow the ~sometimes pattern or create a new approach?
 ```
+
+## ⚠️ COMPLETION VERIFICATION (MANDATORY)
+
+**BEFORE declaring ANY task complete, you MUST verify ALL items below:**
+
+### Completion Checklist (ALL REQUIRED):
+```
+[ ] Feature implemented and working
+[ ] Unit tests created in tests/python/test_[feature].py  
+[ ] Example file created in examples/python/[feature]_example.py.knda
+[ ] README.md updated with new syntax
+[ ] All tests pass: python -m pytest tests/
+[ ] CI is green: gh run list –limit 5
+[ ] No untracked files: git status shows clean
+[ ] Feature branch created and pushed
+[ ] PR created targeting dev branch
+[ ] TodoWrite updated with completion status
+```
+
+**If ANY item is unchecked, continue working. Do NOT hand off to reviewer.**
+
+### Explicit Completion Statement:
+Only after ALL items are verified, state:
+"✅ Task #XX implementation FULLY COMPLETE. All requirements verified. Ready for reviewer handoff."
+
+Then and ONLY then: "Use kinda-lang code reviewer agent to review PR #XX"
 
 ---
 
