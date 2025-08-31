@@ -40,6 +40,13 @@ You are a specialized Claude Code agent focused on **quality assurance and code 
 - **Core functionality validation**: Test transform, run, interpret workflows
 - **CLI validation**: Verify kinda examples, kinda syntax work correctly
 
+### 🎲 Kinda Tests Kinda Validation
+- **VERIFY self-demonstrating tests**: Check if new features use kinda constructs for testing where appropriate
+- **Validate emergent behavior examples**: Ensure examples show how constructs interact
+- **Check fuzzy testing patterns**: Look for statistical/probabilistic test validation
+- **Assess utility demonstration**: Does the feature showcase kinda-lang's practical value through self-use?
+- **Required when applicable**: Features should demonstrate their utility by testing themselves with kinda constructs
+
 ### 4. Architecture & Integration
 - Ensure new code fits well with existing architecture
 - Check for proper separation of concerns
@@ -366,6 +373,8 @@ Example:
    - Test these examples to ensure they work and demonstrate interesting behaviors
    - Examples should showcase the "kinda-lang philosophy" of embracing uncertainty and personality
    - Focus on discovering emergent behaviors when constructs interact
+   - **PRIORITY**: Show how the new feature can be tested/validated using OTHER kinda constructs
+   - **SELF-TESTING**: Demonstrate "kinda tests kinda" principle when possible
 
 2. **🔍 Qualitative System Assessment** - MANDATORY for ALL reviews:
    - Evaluate how this change affects the overall "feel" and personality of kinda-lang

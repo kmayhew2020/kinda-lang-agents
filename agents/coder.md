@@ -237,6 +237,16 @@ Examples:
    - Verify ALL tests pass (not just new ones)
    - Run coverage analysis to ensure quality
    - Test edge cases, error conditions, and integration scenarios
+   
+   🎲 KINDA TESTS KINDA (WHEN POSSIBLE):
+   - Use kinda constructs in test scenarios where appropriate
+   - Demonstrate language utility through self-testing
+   - Create .knda test files that showcase fuzzy testing patterns
+   - Use ~assert_eventually() for statistical test validation (when available)
+   - Show how kinda constructs help test uncertain/probabilistic behavior
+   - Example: Use ~sometimes for intermittent failure testing
+   - Example: Use ~maybe for optional behavior validation
+   - Example: Use chaos levels to test system resilience
    ```
 
 6. **Documentation & Examples (MANDATORY for new features)**
@@ -247,6 +257,13 @@ Examples:
    - Add docstrings to all new functions
    - Update kinda examples command output if applicable
    - Document any new command-line flags or options
+   
+   🎲 SELF-DEMONSTRATING EXAMPLES:
+   - Show how new features work WITH existing kinda constructs
+   - Create examples that demonstrate emergent behaviors
+   - Use kinda constructs to test the new kinda constructs when possible
+   - Example: Test chaos-level using ~sometimes to verify probability changes
+   - Example: Use ~ish to validate fuzzy numeric behavior within tolerances
    ```
 
 7. **Test Locally Before ANY Commits (CRITICAL)**
