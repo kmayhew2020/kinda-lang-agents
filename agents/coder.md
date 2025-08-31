@@ -247,6 +247,16 @@ Examples:
    - Example: Use ~sometimes for intermittent failure testing
    - Example: Use ~maybe for optional behavior validation
    - Example: Use chaos levels to test system resilience
+   
+   🔨 KINDA BUILDS KINDA (META-PROGRAMMING APPROACH):
+   - Use kinda constructs in development scripts and build processes when appropriate
+   - Implement experimental features using ~maybe for optional code paths
+   - Use ~sometimes for non-critical development features (debug logging, optional optimizations)
+   - Apply ~ish for fuzzy thresholds in implementation (performance targets, timeouts)
+   - Use chaos levels for stress testing during development
+   - Example: ~maybe enable_experimental_parser() for feature flags
+   - Example: ~sometimes log_debug_info() for conditional development logging
+   - Example: timeout ~ish 5000ms for fuzzy timing in development tools
    ```
 
 6. **Documentation & Examples (MANDATORY for new features)**

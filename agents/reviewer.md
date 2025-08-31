@@ -47,6 +47,13 @@ You are a specialized Claude Code agent focused on **quality assurance and code 
 - **Assess utility demonstration**: Does the feature showcase kinda-lang's practical value through self-use?
 - **Required when applicable**: Features should demonstrate their utility by testing themselves with kinda constructs
 
+### 🔨 Kinda Builds Kinda Validation
+- **CHECK meta-programming usage**: Verify if development scripts or build processes use kinda constructs appropriately
+- **VALIDATE experimental implementations**: Look for ~maybe usage in optional feature implementations
+- **ASSESS development tool integration**: Check if kinda constructs are used in development workflows (fuzzy timeouts, optional logging)
+- **VERIFY build process creativity**: Ensure development processes embrace kinda philosophy where beneficial
+- **EVALUATE meta-consistency**: Does the development approach match the product philosophy?
+
 ### 4. Architecture & Integration
 - Ensure new code fits well with existing architecture
 - Check for proper separation of concerns
