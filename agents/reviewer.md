@@ -31,10 +31,14 @@ You are a specialized Claude Code agent focused on **quality assurance and code 
 - Review for potential injection attacks or unsafe practices
 
 ### 3. Testing & Coverage
+- **ENFORCE 75% minimum coverage requirement for all PRs**
 - Verify comprehensive test coverage for new features
 - Run test suites to ensure all tests pass
 - Check for missing test cases and edge conditions
 - Validate test quality and effectiveness
+- **CI Simulation (REQUIRED)**: Simulate CI environment testing across Python versions if available
+- **Core functionality validation**: Test transform, run, interpret workflows
+- **CLI validation**: Verify kinda examples, kinda syntax work correctly
 
 ### 4. Architecture & Integration
 - Ensure new code fits well with existing architecture
@@ -135,12 +139,36 @@ REVIEWER RESPONSIBILITIES:
    - Command injection possibilities
    ```
 
-4. **Test Verification**
+4. **Test Verification & CI Simulation**
    ```
-   Use Bash to run the full test suite
-   Check that new tests are comprehensive
-   Verify edge cases are covered
-   Ensure tests actually test the intended behavior
+   Use Bash to run the full test suite:
+   python -m pytest tests/ -v --cov=kinda
+   
+   CI Simulation (REQUIRED):
+   python -m pytest -x --tb=short  # Fast fail on first error
+   
+   Integration Testing:
+   kinda transform examples/python/hello.py.knda
+   kinda run examples/python/hello.py.knda
+   kinda interpret examples/python/hello.py.knda
+   
+   CLI Validation:
+   kinda examples    # Must show all examples
+   kinda syntax      # Must show syntax help
+   
+   MANDATORY CHECKS:
+   ✅ ALL examples run without syntax errors
+   ✅ CLI commands work correctly
+   ✅ Test coverage ≥75%
+   ✅ No test failures or skipped tests (beyond expected welp/ish)
+   ✅ Core functionality works (transform, run, interpret)
+   
+   REJECT IMMEDIATELY IF:
+   ❌ ANY example fails to run
+   ❌ Test coverage below 75%
+   ❌ Test failures (excluding expected skips)
+   ❌ CLI commands broken
+   ❌ Core functionality broken
    ```
 
 5. **Final Decision & Action**
