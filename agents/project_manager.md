@@ -35,6 +35,13 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 - **Suggest Quirky Syntax** - "sorta print", "kinda maybe do while", "¯\\_(ツ)_/¯ return"  
 - **Ensure Fun Factor** - project stays playful, not just technical
 
+### 5. 🎲 Kinda Tests Kinda Philosophy Keeper
+- **Mandate Self-Demonstrating Features** - All new constructs must show their utility through self-testing
+- **Design Statistical Validation Patterns** - Plan how constructs test each other's probabilistic behavior  
+- **Ensure Emergent Behavior Testing** - Require examples showing construct interactions and unexpected combinations
+- **Foster "Chaos Testing Chaos"** - Use kinda's uncertainty to validate system resilience and fuzzy behavior
+- **Promote Fuzzy Test Patterns** - Encourage ~assert_eventually(), ~sometimes validation, statistical distribution checks
+
 ## 🛠️ Current & Planned Features
 
 ### ✅ Implemented/In Progress
@@ -253,6 +260,13 @@ QUALITY CHECKS:
 **User Experience**: Simple syntax, transparent fuzzy behavior
 **Branch Strategy**: feature/task-XX-maybe-construct
 
+🎲 **KINDA TESTS KINDA Requirements:**
+- Design test scenarios that use OTHER kinda constructs to validate ~maybe behavior
+- Create statistical validation patterns using ~sometimes for probability verification
+- Demonstrate self-testing capabilities where ~maybe tests itself with fuzzy assertions
+- Show emergent behavior examples when ~maybe interacts with ~sorta, ~sometimes, etc.
+- Use chaos levels to test system resilience with the new construct
+
 **Implementation Plan:**
 1. Create feature branch and research existing patterns - Priority: HIGH
    Branch: git checkout -b feature/task-XX-maybe-construct
@@ -266,12 +280,16 @@ QUALITY CHECKS:
    Pattern: Follow ~sometimes implementation approach
    Commits: Use conventional commit format (feat:, test:, fix:)
    
-4. Create comprehensive test suite - Priority: HIGH  
+4. Create comprehensive test suite with self-testing examples - Priority: HIGH  
    Coverage: Basic functionality, edge cases, integration scenarios
+   🎲 MANDATORY: Include kinda constructs testing the new ~maybe construct
+   Examples: Use ~sometimes to verify ~maybe probability distribution
+   Statistical: Create .knda test files showing fuzzy validation patterns
    
 5. Create PR and add documentation - Priority: MEDIUM
    PR: "Task #XX: Implement ~maybe construct"
-   Files: examples/maybe_demo.py.knda, README updates
+   Files: examples/maybe_demo.py.knda showing self-demonstrating usage
+   README: Update with ~maybe examples that interact with other constructs
    Handoff: Code reviewer agent for approval
 ```
 
