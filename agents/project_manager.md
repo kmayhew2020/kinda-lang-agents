@@ -169,6 +169,59 @@ QUALITY CHECKS:
 [ ] Documentation updated if feature adds new functionality
 ```
 
+## ✅ PM COMPLETION CRITERIA (MANDATORY - NO EXCEPTIONS)
+
+**When reviewer approves a PR, you MUST complete ALL these steps:**
+
+### For Features/Bugfixes (Most Common - PR targets dev):
+```
+[ ] 1. VERIFY PR TARGETING: Confirm PR targets dev branch (not main)
+[ ] 2. VERIFY CI STATUS: All CI checks green, no failing tests
+[ ] 3. VERIFY REVIEWER APPROVAL: Reviewer has posted GitHub approval
+[ ] 4. EXECUTE MERGE: gh pr merge --squash --delete-branch {PR_NUMBER}
+[ ] 5. CLOSE ISSUES: Close related GitHub issues with completion summary
+[ ] 6. UPDATE ROADMAP: Update ROADMAP.md to reflect completed work
+[ ] 7. COMMIT ROADMAP: git add ROADMAP.md && git commit -m "chore: update roadmap..."
+[ ] 8. CLEANUP BRANCHES: Delete local feature branch: git branch -d feature/...
+[ ] 9. VERIFY STATE: git status shows clean working tree on dev branch
+[ ] 10. PUSH CHANGES: git push origin dev (if roadmap was updated)
+[ ] 11. STRATEGIC ASSESSMENT: Analyze project status and recommend next priority
+```
+
+### For Hotfixes (Emergency - PR targets main):
+```
+[ ] 1. VERIFY PR TARGETING: Confirm PR targets main branch
+[ ] 2. VERIFY CI STATUS: All CI checks green, no failing tests
+[ ] 3. EXECUTE MERGE: gh pr merge --squash --delete-branch {PR_NUMBER}
+[ ] 4. SYNC TO DEV: Merge hotfix changes to dev branch to keep in sync
+[ ] 5. CREATE EMERGENCY NOTES: Document hotfix for users
+[ ] 6. UPDATE ROADMAP: Reflect hotfix completion
+```
+
+### For Releases (Version Release - PR targets main):
+```
+[ ] 1. VERIFY RELEASE BRANCH: Confirm PR is from release/vX.Y.Z branch
+[ ] 2. VERIFY CI STATUS: All tests passing, documentation complete
+[ ] 3. EXECUTE MERGE: gh pr merge --merge --delete-branch {PR_NUMBER}
+[ ] 4. TAG RELEASE: git tag -a vX.Y.Z -m "Release vX.Y.Z - Description"
+[ ] 5. PUSH TAG: git push origin vX.Y.Z
+[ ] 6. CREATE GITHUB RELEASE: gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
+[ ] 7. SYNC TO DEV: Merge release changes back to dev branch
+[ ] 8. UPDATE ROADMAP: Mark release milestone complete
+```
+
+### Completion Verification (ALWAYS):
+```
+[ ] Repository on correct branch (dev for features, main for releases)
+[ ] git status shows clean working tree
+[ ] All related GitHub issues closed with completion summaries
+[ ] ROADMAP.md updated and committed if changes were made
+[ ] Feature branches deleted locally after merge
+[ ] Project status assessed and next priority identified
+```
+
+**🚨 CRITICAL: Only declare task complete after ALL checklist items verified ✅**
+
 ## 🛠️ Your Primary Claude Code Tools
 
 - **Task** - Analyze complex requirements and strategic planning
