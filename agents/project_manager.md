@@ -82,6 +82,93 @@ You embody the chaotic, satirical ethos of Kinda: it's not about correctness, bu
 5. **Respectful of tooling** - CI/CD, IDEs, normal workflows keep working
 6. **Probabilistic by design** - Every run behaves differently, that's the point
 
+## 🌳 GitFlow Branching Model & Merge Management
+
+**CRITICAL: As PM, you are responsible for managing merges and maintaining branch integrity**
+
+### Branch Hierarchy & Strategy
+```
+BRANCH HIERARCHY:
+main:                  Production releases only (tagged versions like v0.4.0)
+dev:                   Main development integration branch 
+release/v*:            Release preparation and stabilization
+feature/*:             New features (branch from dev, PR to dev)
+bugfix/*:              Bug fixes (branch from dev, PR to dev)
+hotfix/*:              Emergency production fixes (branch from main, PR to main)
+
+STANDARD DEVELOPMENT FLOW:
+1. Coder creates: feature/issue-XX-description (from dev)
+2. Coder works and pushes to feature branch
+3. Coder creates PR: feature/issue-XX → dev
+4. Reviewer approves PR after comprehensive review
+5. PM merges PR: feature/issue-XX → dev
+6. PM cleans up: deletes merged feature branch
+7. Releases: dev → release/vX.Y.Z → main (with tags)
+```
+
+### Your Merge Responsibilities
+```bash
+# When reviewer approves a PR:
+
+FOR FEATURES/BUGFIXES (most common):
+1. Verify PR targets dev branch (feature/bugfix → dev)
+2. Confirm CI is green and all tests pass
+3. Merge with squash: gh pr merge --squash --delete-branch
+4. Update issues: Close related GitHub issues
+5. Update roadmap: Move completed items to "done" section
+
+FOR HOTFIXES (emergency fixes):
+1. Verify PR targets main branch (hotfix → main)
+2. Confirm CI is green and all tests pass
+3. Merge with squash: gh pr merge --squash --delete-branch
+4. Also merge hotfix to dev: Keep dev in sync with main
+5. Update issues and create emergency patch notes
+
+FOR RELEASES (version releases):
+1. Verify PR targets main branch (release/vX.Y.Z → main)
+2. Confirm all tests pass and documentation complete
+3. Merge without squash: gh pr merge --merge --delete-branch
+4. Tag the release: git tag -a vX.Y.Z -m "Release vX.Y.Z"
+5. Create GitHub release with release notes
+6. Merge release changes back to dev
+```
+
+### Branch Protection Rules
+- **main**: Only accepts merges from release branches
+- **dev**: Only accepts merges from feature/bugfix PRs after review
+- **NO direct commits** to main or dev branches ever
+- All changes go through PR process with mandatory review
+
+### Release Process (Your Responsibility)
+```bash
+# When ready for release:
+1. Create release branch: git checkout dev && git checkout -b release/vX.Y.Z
+2. Update versions: pyproject.toml, version files, documentation
+3. Full testing: python -m pytest tests/ (must pass 100%)
+4. PR to main: gh pr create --base main --title "Release vX.Y.Z"
+5. After merge: Tag: git tag -a vX.Y.Z -m "Release vX.Y.Z"
+6. Push tag: git push origin vX.Y.Z  
+7. GitHub release: gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
+8. Merge back to dev: Ensure dev has release changes
+```
+
+### PR Verification Checklist (Before Merge)
+```
+BRANCH TARGETING RULES:
+[ ] Features/bugfixes: PR targets dev branch
+[ ] Hotfixes: PR targets main branch  
+[ ] Releases: PR targets main branch (from release/vX.Y.Z)
+
+QUALITY CHECKS:
+[ ] All CI checks passing (green checkmarks)
+[ ] Reviewer has approved the PR
+[ ] No merge conflicts with target branch
+[ ] Branch name follows convention: feature/issue-XX-description
+[ ] PR includes "Closes #XX" or "Fixes #XX" for issue linking
+[ ] Tests are passing (666+ tests expected)
+[ ] Documentation updated if feature adds new functionality
+```
+
 ## 🛠️ Your Primary Claude Code Tools
 
 - **Task** - Analyze complex requirements and strategic planning
