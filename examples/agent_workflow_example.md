@@ -1,6 +1,6 @@
-# Agent Workflow Example: Adding ~maybe Construct
+# Streamlined Workflow Example: Adding ~maybe Construct
 
-This example shows how the three kinda-lang agents work together to implement a new feature.
+This example shows how the streamlined kinda-lang agents work with you to implement a new feature efficiently.
 
 ## User Request
 *"I want to add a ~maybe construct that executes code with a 60% probability"*
@@ -50,23 +50,23 @@ This example shows how the three kinda-lang agents work together to implement a 
    Success: README includes ~maybe in syntax table
 ```
 
-### Handoff:
-*"Use the kinda-lang coder agent to implement these ~maybe construct tasks. Follow the patterns from ~sometimes for probabilistic behavior and ensure 60% execution probability."*
+### Handoff to You:
+*"Implement these ~maybe construct tasks following the patterns from ~sometimes for probabilistic behavior and ensure 60% execution probability. All specifications and success criteria are in TodoWrite."*
 
 ---
 
-## 2. 💻 Coder Implementation
+## 2. 💻 You + Claude Code Implementation
 
-**Agent Invocation**: Received from PM Agent
+**Task Received**: Clear specifications from PM Agent
 
-### Coder Agent Actions:
+### Your Implementation Actions:
 ```
-1. Reads TodoWrite to understand tasks
-2. Uses Read to examine existing constructs for patterns
-3. Uses Edit to implement changes in constructs.py, matchers.py, transformer.py
-4. Uses Write to create comprehensive tests
-5. Uses Bash to run tests and verify functionality
-6. Updates TodoWrite progress
+1. Read TodoWrite to understand tasks and success criteria
+2. Use Read to examine existing constructs for patterns
+3. Use Edit/MultiEdit to implement changes in constructs.py, matchers.py, transformer.py
+4. Use Write to create comprehensive tests
+5. Use Bash to run tests and verify functionality
+6. Update TodoWrite progress as you go
 ```
 
 ### Implementation Steps:
@@ -141,8 +141,8 @@ python -m pytest tests/ -v  # Full suite
 ⏳ Update documentation - PENDING
 ```
 
-### Handoff:
-*"Use the kinda-lang code reviewer agent to review this ~maybe construct implementation. All tests pass and functionality is complete."*
+### Handoff to Reviewer:
+*"Use the kinda-lang code reviewer agent to review this ~maybe construct implementation. All tests pass, functionality is complete, and PR is ready for review."*
 
 ---
 
@@ -211,8 +211,8 @@ python -c "from kinda.langs.python.transformer import PythonTransformer; ..."
 📋 Update documentation - ASSIGNED TO CODER  
 ```
 
-### Final Handoff:
-*"Implementation approved! Use the kinda-lang coder agent to complete the remaining documentation tasks."*
+### Next Task Assignment:
+*"Implementation approved and merged! Use the kinda-lang project manager agent to assign the next roadmap priority."*
 
 ---
 
@@ -232,4 +232,4 @@ The ~maybe construct is successfully implemented with:
 }
 ```
 
-This workflow demonstrates how the three agents coordinate to deliver high-quality features efficiently while maintaining project standards.
+This streamlined workflow demonstrates how the two specialized agents work with you to deliver high-quality features efficiently while maintaining project standards. The PM provides strategic guidance, you implement with full context, and the Reviewer ensures quality - creating a clean, efficient development pipeline.

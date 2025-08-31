@@ -1,65 +1,55 @@
 # 🤖 Kinda-Lang Claude Code Agents
 
-Specialized Claude Code agents for kinda-lang development workflow automation.
+Specialized Claude Code agents for streamlined kinda-lang development workflow automation.
 
-## 🎯 Agent Architecture
+## 🎯 Streamlined Agent Architecture
 
-This repository contains three specialized **Claude Code agents** designed to work together for kinda-lang development:
+This repository contains **one specialized Claude Code agent** designed for streamlined kinda-lang development:
 
-### 1. 🏗️ **Project Manager Agent**
-- **Role**: Strategic planning, architecture decisions, and task coordination
-- **Claude Code Tools**: Task, TodoWrite, Read, LS, Grep
-- **Responsibilities**:
-  - Analyze requirements and break down into actionable tasks
-  - Make architectural decisions and design patterns
-  - Coordinate work between other agents using Task tool
-  - Track progress with TodoWrite and manage priorities
-  - Review and approve major changes
-
-### 2. 💻 **Coder Agent** 
-- **Role**: Implementation and feature development
-- **Claude Code Tools**: Read, Write, Edit, MultiEdit, Bash, Grep, Glob
-- **Responsibilities**:
-  - Implement features based on architect specifications
-  - Write clean, tested code following project conventions
-  - Run tests and verify functionality with Bash
-  - Handle bug fixes and performance improvements
-  - Create comprehensive unit tests
-
-### 3. 🔍 **Code Reviewer Agent**
-- **Role**: Quality assurance and code review
+### 1. 🔍 **Code Reviewer Agent**
+- **Role**: Quality assurance, security review, and PR management
 - **Claude Code Tools**: Read, Grep, Bash (for testing), TodoWrite
 - **Responsibilities**:
   - Review code for quality, security, and best practices
-  - Ensure adherence to project standards using Grep for pattern analysis
-  - Run test suites and verify coverage
-  - Suggest improvements and optimizations
-  - Approve or request changes before merging
+  - Ensure adherence to project standards using comprehensive analysis
+  - Run test suites and verify coverage requirements
+  - Full PR approval and merge authority
+  - Maintain project excellence and catch security issues
 
-## 🔄 Claude Code Workflow
+### 📁 **Archived Agents**
+The `agents/archived/` directory contains additional agents (Project Manager, Coder, Scrum Master) that were designed for more complex workflows but aren't needed for the current streamlined You → Reviewer flow.
+
+## 🔄 Streamlined Claude Code Workflow
 
 ```mermaid
 graph LR
-    PM[Project Manager<br/>Task, TodoWrite] --> C[Coder<br/>Read, Write, Edit, Bash]
-    C --> CR[Code Reviewer<br/>Read, Grep, Bash]
-    CR --> PM
-    CR --> C
+    You[You + Claude Code<br/>Implementation & Planning] --> CR[Code Reviewer<br/>Quality & Security]
+    CR --> You
 ```
 
-1. **Project Manager** uses Task tool to analyze requirements and TodoWrite to create implementation plans
-2. **Coder** uses Read/Write/Edit tools to implement features and Bash to run tests
-3. **Code Reviewer** uses Read/Grep to analyze code quality and Bash to verify tests
-4. Cycle repeats until code meets quality standards
+1. **You + Claude Code** handle planning, implementation, and task management based on roadmap
+2. **Code Reviewer** ensures quality gates, runs comprehensive tests, and merges PRs
+3. **Continuous Cycle**: After review/merge, you select next priority from roadmap
+
+### Why This Streamlined Approach Works:
+- **Direct Control**: You maintain full context of both planning and implementation
+- **Efficient Flow**: Fewer handoffs mean faster development cycles  
+- **Quality Assurance**: Dedicated reviewer maintains high standards
+- **Roadmap Driven**: ROADMAP.md file provides clear priority guidance
 
 ## 🚀 Getting Started
 
-These agents are designed to work within Claude Code environments:
+These agents work seamlessly within Claude Code environments:
 
 ```bash
-# Each agent can be invoked in Claude Code using:
-# "Use the kinda-lang project manager agent to plan this feature"
-# "Use the kinda-lang coder agent to implement this"  
-# "Use the kinda-lang code reviewer agent to review this PR"
+# Check roadmap and implement next priority:
+# Refer to ROADMAP.md for current priorities and work on next logical task
+
+# After you implement features:
+"Use the kinda-lang code reviewer agent to review PR #X and merge if approved"
+
+# Continuous development:
+# After review/merge, consult ROADMAP.md for next priority task
 ```
 
 ## 📁 Structure
@@ -67,11 +57,12 @@ These agents are designed to work within Claude Code environments:
 ```
 kinda-lang-agents/
 ├── agents/
-│   ├── project_manager.md    # Project Manager agent prompt
-│   ├── coder.md             # Coder agent prompt  
-│   ├── reviewer.md          # Code Reviewer agent prompt
-│   └── coordinator.md       # Agent coordination guidelines
-├── examples/                # Example workflows
+│   ├── reviewer.md          # Code Reviewer agent (ACTIVE)
+│   └── archived/            # Reference agents for complex workflows
+│       ├── project_manager.md # Project Manager agent (archived)
+│       ├── coder.md         # Implementation agent (archived)
+│       └── scrum_master.md  # Coordination agent (archived)
+├── examples/                # Example workflows  
 ├── templates/               # Task and review templates
 └── docs/                   # Documentation
 ```
