@@ -416,21 +416,29 @@ Examples:
     Main branch is ONLY for production releases and hotfixes!
     ```
 
-13. **Verify CI Passes Before Handoff (CRITICAL)**
+13. **🚨 VERIFY CI PASSES BEFORE HANDOFF (ABSOLUTELY CRITICAL - NO EXCEPTIONS) 🚨**
     ```
-    ⚠️ MANDATORY BEFORE HANDING OFF TO REVIEWER:
+    ⚠️ MANDATORY BEFORE HANDING OFF TO REVIEWER - FAILURE TO DO THIS IS TASK FAILURE:
     
-    After creating PR, WAIT for CI to complete:
-    gh run list --limit 5
+    After creating PR, you MUST WAIT for CI to complete:
+    1. Check CI status: gh run list --limit 5
+    2. Look for YOUR branch name in the output
+    3. Verify it shows: "completed   success   [your commit]   Kinda CI   feature/branch   push"
+    4. If ANY test fails, fix immediately and push again
+    5. NEVER hand off to reviewer with failing or pending CI
     
-    Check that YOUR branch CI shows:
-    completed   success   [your commit message]   Kinda CI   feature/branch   push
+    🚫 TASK IS NOT COMPLETE UNTIL CI SHOWS "COMPLETED SUCCESS"
     
-    DO NOT hand off to reviewer until CI shows "completed" and "success"
-    If CI fails, fix issues locally and push again
-    Only proceed to code review when CI is green
+    If CI fails:
+    - Check the failing tests: gh run view [run-id] --log
+    - Fix the issues locally
+    - Push the fixes
+    - Wait for CI again
+    - Only then hand off to reviewer
     
-    WORKFLOW: Check Main CI → Push → Create PR → Wait for Feature CI Success → Hand Off to Reviewer
+    WORKFLOW: Local Tests Pass → Push → Create PR → WAIT FOR CI SUCCESS → Then Hand Off
+    
+    ⚠️ CRITICAL: This step cannot be skipped or delegated. YOU must verify CI success.
     ```
 
 14. **Update Progress & Hand Off**
