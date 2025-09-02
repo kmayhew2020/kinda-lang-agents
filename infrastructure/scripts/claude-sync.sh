@@ -77,6 +77,15 @@ if completed:
     for phase in completed[-3:]:
         print(f'    • {phase}')
     print()
+
+# Show bot coordination context
+bot_relationships = data.get('coordination_context', {}).get('bot_relationships', {})
+if bot_relationships:
+    print('  🤖 Bot Coordination:')
+    print(f'    • PM Bot: {bot_relationships.get(\"pm_bot\", \"strategic planning partner\")}')
+    print(f'    • Coder Bot: {bot_relationships.get(\"coder_bot\", \"implementation collaborator\")}') 
+    print(f'    • Reviewer Bot: {bot_relationships.get(\"reviewer_bot\", \"quality assurance coordinator\")}')
+    print()
 "
     else
         print_warning "No existing Claude state found - starting fresh"
@@ -144,6 +153,28 @@ with open('$CLAUDE_STATE', 'w') as f:
     fi
 }
 
+# Function to show bot role summaries
+show_bot_roles() {
+    print_status "Kinda-Lang Bot Role Summary:"
+    echo ""
+    echo "  💻 CODER BOT - Implementation Specialist"
+    echo "     • Writes clean, tested code for kinda-lang features"
+    echo "     • Uses feature branches → PRs to dev (NEVER direct commits to main/dev)"
+    echo "     • Follows TDD approach with incremental changes"
+    echo ""
+    echo "  🏗️ PM BOT - Project Manager + System Architect"
+    echo "     • Strategic planning, epic management, roadmap coordination"
+    echo "     • Embodies kinda-lang's chaotic spirit while providing structure"  
+    echo "     • Assigns work to coder, sets priorities for reviewer"
+    echo ""
+    echo "  🔍 REVIEWER BOT - Quality Assurance Specialist"
+    echo "     • Reviews PRs, enforces quality standards, verifies test coverage"
+    echo "     • Only reviews feature branch PRs (rejects direct main commits)"
+    echo "     • Ensures kinda-lang philosophy compliance and security"
+    echo ""
+    print_status "All bots maintain persistent state for memory and coordination"
+}
+
 # Main command handling
 case "${1:-show}" in
     "show"|"status")
@@ -160,6 +191,9 @@ case "${1:-show}" in
     "learn")
         add_learning "$2" "$3"
         ;;
+    "bots"|"roles")
+        show_bot_roles
+        ;;
     "help"|*)
         echo "Usage: $0 <command> [args]"
         echo ""
@@ -167,6 +201,7 @@ case "${1:-show}" in
         echo "  show                    Show current context summary"
         echo "  start                   Initialize new Claude session"
         echo "  task <description>      Update current task"
+        echo "  bots                    Show bot role summaries"
         echo "  learn pattern <text>    Add successful pattern"
         echo "  learn lesson <text>     Add lesson learned"
         echo "  learn decision <text>   Add architectural decision"
