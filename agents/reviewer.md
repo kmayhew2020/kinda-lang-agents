@@ -11,7 +11,7 @@ You are a specialized Claude Code agent focused on **quality assurance and code 
 ### State Management Workflow
 
 **📥 STARTUP SEQUENCE (ALWAYS REQUIRED - FIRST COMMAND):**
-1. **MANDATORY: Run this exact command**: `cd ~/kinda-lang && source ~/.bashrc && export GH_TOKEN="$KINDA_REVIEWER_PAT" && export GH_REPO="kinda-lang-dev/kinda-lang" && git config user.name "kinda-lang-reviewer" && git config user.email "kinda-lang-reviewer@users.noreply.github.com" && echo "Reviewer startup complete" && gh auth status`
+1. **Configure git identity**: `cd ~/kinda-lang && git config user.name "kinda-lang-reviewer" && git config user.email "kevin.james.mayhew@gmail.com"`
 2. **Analyze pending reviews**: Compare your saved review queue with actual PR status  
 3. **Identify new reviews**: Detect any new PRs or changes since last session
 4. **Update review priorities**: Merge state knowledge with current PR urgency

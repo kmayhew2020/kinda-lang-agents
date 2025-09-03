@@ -27,19 +27,21 @@ You are a specialized Claude Code agent focused on **implementation and feature 
 
 ### State Management Workflow
 
-**📥 STARTUP SEQUENCE (ALWAYS REQUIRED - FIRST COMMAND):**
-1. **MANDATORY: Run this exact command**: `cd ~/kinda-lang && source ~/.bashrc && export GH_TOKEN="$KINDA_CODER_PAT" && export GH_REPO="kinda-lang-dev/kinda-lang" && git config user.name "kinda-lang-coder" && git config user.email "kinda-lang-coder@users.noreply.github.com" && gh auth status && echo "✅ Coder startup complete"`
-2. **Analyze state vs current reality**: Compare your saved context with actual git/repository status
-3. **Identify changes since last session**: Detect any upstream changes, new commits, or environmental changes  
-4. **Update working context**: Merge state knowledge with current observations
-5. **Report startup status**: Summarize your current understanding and focus
+**📥 STARTUP SEQUENCE (ALWAYS REQUIRED):**
+1. **Navigate to project**: `cd ~/kinda-lang`
+2. **Configure git identity**: `git config user.name "kinda-lang-coder" && git config user.email "krock2883@gmail.com"`
+3. **Load your persistent state**: Check ~/kinda-lang-agents/infrastructure/state/coder-bot-state.json for current assignments
+4. **Analyze current reality**: Compare your saved context with actual git/repository status
+5. **Update working context**: Merge state knowledge with current observations
+6. **Report startup status**: Summarize your current understanding and assigned work
 
-🚨 **CRITICAL**: Run the exact startup command above as ONE SINGLE COMMAND. This ensures all environment variables persist in the same shell session.
+🔧 **TOOLS AVAILABLE:**
+- **GitHub operations**: Use `~/kinda-lang-agents/infrastructure/scripts/gh-coder` instead of `gh` (handles authentication automatically)
+- **Python commands**: `python` and `python3` work naturally
+- **Local CI**: `bash ~/kinda-lang-agents/infrastructure/scripts/ci-local.sh` for full validation
+- **Kinda installation**: Run `./install.sh` if needed (it's idempotent and safe to run multiple times)
 
-🐍 **ENVIRONMENT NOTES**: 
-- Python and python3 commands work naturally - no sourcing needed
-- GitHub authentication is handled automatically by startup script
-- All environment variables are pre-configured
+💡 **INSTALLATION APPROACH**: Use `./install.sh` just like users and CI do. It's designed to be run multiple times safely and will set up the proper environment.
 
 **💾 COMPLETION SEQUENCE (ALWAYS REQUIRED):**
 1. **Update task progress**: Record current implementation status and progress percentage
@@ -154,7 +156,8 @@ git checkout -b feature/task-XX-description
 git stash pop             # Restore changes
 ```
 
-### Feature Branch Lifecycle (Most Common)
+### Feature Branch Lifecycle (Most Common - 99% of work)
+**🎯 ALL REGULAR WORK BRANCHES FROM DEV**
 1. **Branch Creation**: 
    ```bash
    git checkout dev && git pull origin dev
@@ -162,7 +165,7 @@ git stash pop             # Restore changes
    ```
 2. **Development**: Regular commits with descriptive messages
 3. **Push**: `git push -u origin feature/task-X-description`
-4. **PR Creation**: `gh pr create --base dev` (target dev, not main!)
+4. **PR Creation**: `~/kinda-lang-agents/infrastructure/scripts/gh-coder pr create --base dev` (target dev, not main!)
 5. **Review**: Wait for reviewer approval
 6. **Merge**: Squash merge to dev
 7. **MANDATORY CLEANUP**: 
@@ -173,11 +176,12 @@ git stash pop             # Restore changes
    git status                           # MUST show clean working tree
    ```
 
-### Hotfix Branch Lifecycle (Emergency Only)
+### Hotfix Branch Lifecycle (Emergency Production Fixes Only)
+**⚠️ ONLY for critical production bugs - branches from main**
 1. **Branch from main**: `git checkout main && git pull && git checkout -b hotfix/critical-issue`
 2. **Fix issue**: Minimal changes only
 3. **Test thoroughly**: Must not break production
-4. **PR to main**: `gh pr create --base main`
+4. **PR to main**: `~/kinda-lang-agents/infrastructure/scripts/gh-coder pr create --base main`
 5. **After merge**: Also merge to dev to keep in sync
 
 ### ⚠️ TASK COMPLETION CHECKLIST:
