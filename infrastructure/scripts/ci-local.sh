@@ -19,10 +19,27 @@ print_success() { echo -e "${GREEN}[✓]${NC} $1"; }
 print_warning() { echo -e "${YELLOW}[!]${NC} $1"; }
 print_error() { echo -e "${RED}[✗]${NC} $1"; }
 
-# Change to project root
-cd "$(dirname "$0")/.."
+# Change to project root (should be ~/kinda-lang for bots)
+if [ -d "~/kinda-lang" ]; then
+    cd ~/kinda-lang
+elif [ -d "../kinda-lang" ]; then
+    cd ../kinda-lang
+else
+    cd "$(dirname "$0")/../.."  # Fallback to relative path
+fi
 
 print_status "Running same checks as GitHub Actions CI..."
+print_status "Working directory: $(pwd)"
+
+# Activate virtual environment if it exists
+if [ -f "venv/bin/activate" ]; then
+    source venv/bin/activate
+    print_status "Virtual environment activated"
+elif [ -f "/home/kevin/kinda-lang/venv/bin/activate" ]; then
+    source /home/kevin/kinda-lang/venv/bin/activate
+    cd /home/kevin/kinda-lang
+    print_status "Virtual environment activated from absolute path"
+fi
 
 # 1. Install dependencies (matches CI workflow)
 print_status "Installing project with dev dependencies..."

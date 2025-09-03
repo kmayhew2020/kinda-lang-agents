@@ -1,0 +1,5 @@
+#!/bin/bash
+# GitHub CLI wrapper for reviewer bot
+# Sources local token file and runs gh
+
+exec bash -c "source ~/.kinda-tokens && export GH_TOKEN=\"\$KINDA_REVIEWER_PAT\" && export GH_REPO=\"kinda-lang-dev/kinda-lang\" && gh $*"
