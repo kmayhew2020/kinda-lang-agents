@@ -187,11 +187,11 @@ git stash pop             # Restore changes
 ### ⚠️ TASK COMPLETION CHECKLIST:
 ```
 [ ] Repository is clean (git status shows "working tree clean")
-[ ] All local tests pass (python -m pytest tests/)
+[ ] All local tests pass (.venv/bin/python -m pytest tests/)
 [ ] MANDATORY: Local CI runner executed and passed (bash ~/kinda-lang-agents/infrastructure/scripts/ci-local.sh)
 [ ] MANDATORY: Code formatting check passes (black --check --diff .)
-[ ] MANDATORY: CLI commands work (kinda --help, kinda examples, kinda syntax)
-[ ] MANDATORY: Test coverage validation (pytest --cov=kinda --cov-report=term-missing tests/)
+[ ] MANDATORY: CLI commands work (.venv/bin/kinda --help, .venv/bin/kinda examples, .venv/bin/kinda syntax)
+[ ] MANDATORY: Test coverage validation (.venv/bin/python -m pytest --cov=kinda --cov-report=term-missing tests/)
 [ ] MANDATORY: Documentation reviewed and understood for relevant constructs
 [ ] MANDATORY: Examples tested to verify expected behavior before implementation
 [ ] MANDATORY: If documentation unclear, create documentation improvement issue
@@ -330,7 +330,7 @@ Examples:
    ⚠️ MANDATORY BEFORE ANY COMMITS OR PUSHES:
    
    1. Run full test suite locally FIRST:
-      python -m pytest tests/ --tb=no -q
+      .venv/bin/python -m pytest tests/ --tb=no -q
    
    2. Fix ALL failing tests before any commits
       - No hardcoded paths (use Path(__file__).parent for dynamic paths)
@@ -392,7 +392,7 @@ Examples:
     ```
     ⚠️ DO NOT CREATE PR UNTIL ALL CHECKED:
     [ ] git status shows NO untracked/modified files
-    [ ] All tests pass (python -m pytest tests/)
+    [ ] All tests pass (.venv/bin/python -m pytest tests/)
     [ ] Example file created in examples/python/
     [ ] README.md updated with new feature
     [ ] CLI help/examples updated if applicable
@@ -417,7 +417,7 @@ Examples:
     3. Ensure main branch CI is currently "completed" and "success"
     
     4. Run FULL local test suite (simulate CI locally):
-       python -m pytest tests/ --tb=no -q
+       .venv/bin/python -m pytest tests/ --tb=no -q
        
     5. ALL tests must pass locally before pushing:
        - Fix any failing tests immediately
@@ -522,12 +522,12 @@ For implementing Task #XX ~maybe construct:
 8. Add end-to-end test files in tests/python/input/test_maybe.py.knda
 9. Create example: examples/python/maybe_example.py.knda showing usage
 10. Update README.md with ~maybe syntax and 60% probability behavior
-11. Run full test suite with `python -m pytest tests/`
+11. Run full test suite with `.venv/bin/python -m pytest tests/`
 12. Commit tests & docs: `git add . && git commit -m "test: add comprehensive test suite for ~maybe construct"`
 13. **MANDATORY Pre-Push Validation**: 
     - Verify repo clean: `git status` (must show "working tree clean")
     - Check main CI: `gh run list --limit 3` 
-    - Run full test suite: `python -m pytest tests/ --tb=no -q`
+    - Run full test suite: `.venv/bin/python -m pytest tests/ --tb=no -q`
     - Fix any failing tests before proceeding
     - Final clean check: `git status`
 14. Push branch: `git push -u origin feature/task-XX-maybe-construct`
@@ -592,7 +592,7 @@ class TestMaybeConstruct:
 - **Create examples for new features** - Add to examples/python/ directory
 - **Update documentation** - README.md and docstrings for all new functionality
 - **Add end-to-end tests** - Input/output test files for integration testing
-- **Run tests frequently** - Use `python -m pytest tests/` regularly
+- **Run tests frequently** - Use `.venv/bin/python -m pytest tests/` regularly
 - **Check CI before pushing** - MANDATORY: `gh run list --limit 5` to verify CI status
 - **Update todos** - Mark progress and create handoff todos
 - **Handle errors gracefully** - Provide helpful error messages

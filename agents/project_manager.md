@@ -161,21 +161,21 @@ STANDARD DEVELOPMENT FLOW:
 FOR FEATURES/BUGFIXES (most common):
 1. Verify PR targets dev branch (feature/bugfix → dev)
 2. Confirm CI is green and all tests pass
-3. Merge with squash: gh pr merge --squash --delete-branch
+3. Merge with squash: ~/kinda-lang-agents/infrastructure/scripts/gh-pm pr merge --squash --delete-branch
 4. Update issues: Close related GitHub issues
 5. Update roadmap: Move completed items to "done" section
 
 FOR HOTFIXES (emergency fixes):
 1. Verify PR targets main branch (hotfix → main)
 2. Confirm CI is green and all tests pass
-3. Merge with squash: gh pr merge --squash --delete-branch
+3. Merge with squash: ~/kinda-lang-agents/infrastructure/scripts/gh-pm pr merge --squash --delete-branch
 4. Also merge hotfix to dev: Keep dev in sync with main
 5. Update issues and create emergency patch notes
 
 FOR RELEASES (version releases):
 1. Verify PR targets main branch (release/vX.Y.Z → main)
 2. Confirm all tests pass and documentation complete
-3. Merge without squash: gh pr merge --merge --delete-branch
+3. Merge without squash: ~/kinda-lang-agents/infrastructure/scripts/gh-pm pr merge --merge --delete-branch
 4. Tag the release: git tag -a vX.Y.Z -m "Release vX.Y.Z"
 5. Create GitHub release with release notes
 6. Merge release changes back to dev
@@ -192,11 +192,11 @@ FOR RELEASES (version releases):
 # When ready for release:
 1. Create release branch: git checkout dev && git checkout -b release/vX.Y.Z
 2. Update versions: pyproject.toml, version files, documentation
-3. Full testing: python -m pytest tests/ (must pass 100%)
-4. PR to main: gh pr create --base main --title "Release vX.Y.Z"
+3. Full testing: .venv/bin/python -m pytest tests/ (must pass 100%)
+4. PR to main: ~/kinda-lang-agents/infrastructure/scripts/gh-pm pr create --base main --title "Release vX.Y.Z"
 5. After merge: Tag: git tag -a vX.Y.Z -m "Release vX.Y.Z"
 6. Push tag: git push origin vX.Y.Z  
-7. GitHub release: gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
+7. GitHub release: ~/kinda-lang-agents/infrastructure/scripts/gh-pm release create vX.Y.Z --title "vX.Y.Z" --notes "..."
 8. Merge back to dev: Ensure dev has release changes
 ```
 
@@ -226,7 +226,7 @@ QUALITY CHECKS:
 [ ] 1. VERIFY PR TARGETING: Confirm PR targets dev branch (not main)
 [ ] 2. VERIFY CI STATUS: All CI checks green, no failing tests
 [ ] 3. VERIFY REVIEWER APPROVAL: Reviewer has posted GitHub approval
-[ ] 4. EXECUTE MERGE: gh pr merge --squash --delete-branch {PR_NUMBER}
+[ ] 4. EXECUTE MERGE: ~/kinda-lang-agents/infrastructure/scripts/gh-pm pr merge --squash --delete-branch {PR_NUMBER}
 [ ] 5. CLOSE ISSUES: Close related GitHub issues with completion summary
 [ ] 6. UPDATE ROADMAP: Update ROADMAP.md to reflect completed work
 [ ] 7. COMMIT ROADMAP: git add ROADMAP.md && git commit -m "chore: update roadmap..."
@@ -253,7 +253,7 @@ QUALITY CHECKS:
 [ ] 3. EXECUTE MERGE: gh pr merge --merge --delete-branch {PR_NUMBER}
 [ ] 4. TAG RELEASE: git tag -a vX.Y.Z -m "Release vX.Y.Z - Description"
 [ ] 5. PUSH TAG: git push origin vX.Y.Z
-[ ] 6. CREATE GITHUB RELEASE: gh release create vX.Y.Z --title "vX.Y.Z" --notes "..."
+[ ] 6. CREATE GITHUB RELEASE: ~/kinda-lang-agents/infrastructure/scripts/gh-pm release create vX.Y.Z --title "vX.Y.Z" --notes "..."
 [ ] 7. SYNC TO DEV: Merge release changes back to dev branch
 [ ] 8. UPDATE ROADMAP: Mark release milestone complete
 ```
