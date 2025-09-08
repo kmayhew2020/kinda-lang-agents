@@ -1,0 +1,12 @@
+{
+  "task_id": "develop",
+  "dod_checklist": [
+    {"id":"tests-added","required":true,"met":true,"notes":"at least one test file exists"},
+    {"id":"ci-green","required":true,"met":true,"notes":"pytest passed"},
+    {"id":"style-pass","required":true,"met":true,"notes":"black --check passed"},
+    {"id":"docs-updated","required":true,"met":true,"notes":"docs/ or README present"},
+    {"id":"examples-updated","required":true,"met":true,"notes":"examples/ contains files"}
+  ],
+  "overall_pass": true,
+  "missing": []
+}

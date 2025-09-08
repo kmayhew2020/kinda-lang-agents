@@ -114,3 +114,21 @@ print_status "Repository is ready for PR creation"
 echo "=============================================="
 
 exit 0
+
+echo ""
+echo "🔍 Auditing Definition of Done"
+infrastructure/scripts/audit-dod.sh
+
+#echo ""
+#echo "📄 DoD compliance report:"
+#jq . .kinda/compliance_report.json || cat .kinda/compliance_report.json
+#
+#echo ""
+#echo "🔍 Enforcing Definition of Done"
+#if infrastructure/scripts/audit-dod.sh && jq -e '.overall_pass == true' .kinda/compliance_report.json >/dev/null; then
+#  echo "✅ DoD compliance achieved"
+#else
+#  echo "❌ DoD compliance failed — see .kinda/compliance_report.json"
+#  exit 1
+#fi
+

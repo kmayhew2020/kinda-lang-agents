@@ -1,0 +1,15 @@
+{
+  "id": "kinda-lang-dod@1",
+  "required": [
+    {"id": "tests-added", "desc": "At least one new or updated test covering changed code"},
+    {"id": "ci-green", "desc": "pytest returns 0 locally"},
+    {"id": "style-pass", "desc": "black --check passes on repo"},
+    {"id": "docs-updated", "desc": "Docs mention the new symbol/flag/feature (changed files in docs/ or README.md)"},
+    {"id": "examples-updated", "desc": "An example demonstrates the feature end-to-end"}
+  ],
+  "optional": [
+    {"id": "changelog", "desc": "CHANGELOG/semver note updated"},
+    {"id": "risk-notes", "desc": "README or PR body explains risk and rollback"}
+  ]
+}
+
