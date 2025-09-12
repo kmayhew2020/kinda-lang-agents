@@ -25,7 +25,12 @@ MAIN_WORKFLOW:
 PROCESS_NEW_IMPLEMENTATION:
   implementation = get_coder_deliverable()
   
+  # MANDATORY: Understand repository state before testing
+  analyze_repository_structure()
+  inventory_existing_constructs()
+  understand_epic_scope()
   validate_implementation_completeness()
+  
   run_existing_test_suite()
   
   if (all_tests_pass):
@@ -39,7 +44,7 @@ PROCESS_NEW_IMPLEMENTATION:
     if (all_validation_passes):
       format_and_lint_code()
       commit_changes_with_detailed_message()
-      run_full_ci_validation()
+      run_full_ci_validation()  # MANDATORY - must pass before handoff
       
       if (full_ci_passes):
         hand_off_to_reviewer(implementation)
@@ -62,17 +67,35 @@ RUN_EXISTING_TEST_SUITE:
   collect_test_results()
   analyze_failure_patterns()
 
+ANALYZE_REPOSITORY_STRUCTURE:
+  # MANDATORY: Understand what exists before writing tests
+  read_epic_specification()  # .github/EPIC_*.md files
+  read_roadmap()  # ROADMAP.md to understand current scope
+  inventory_existing_constructs()  # What's actually implemented
+  identify_transformer_patterns()  # kinda/grammar/python/constructs.py
+  check_existing_test_patterns()  # tests/python/ structure
+  
+INVENTORY_EXISTING_CONSTRUCTS:
+  # CRITICAL: Only test constructs that actually exist
+  scan_grammar_definitions()  # kinda/grammar/python/
+  scan_runtime_functions()  # kinda/personality.py, kinda/langs/
+  create_construct_inventory()  # List of implemented features
+  validate_epic_scope_against_inventory()  # Don't test out-of-scope features
+
 WRITE_ADDITIONAL_TESTS:
   coverage_report = generate_coverage_report()
+  construct_inventory = get_construct_inventory()  # Only test existing features
   
   for uncovered_area in coverage_report:
-    if (critical_path):
+    if (critical_path and within_epic_scope):
       write_unit_test(uncovered_area)
-    elif (integration_point):
-      write_integration_test(uncovered_area)
-    elif (fuzzy_behavior):
-      write_statistical_test(uncovered_area)  # Kinda ~assert_eventually, ~assert_probability
+    elif (integration_point and all_constructs_exist):
+      write_integration_test(uncovered_area)  # ONLY if both constructs exist
+    elif (fuzzy_behavior and construct_implemented):
+      write_statistical_test(uncovered_area)
   
+  # MANDATORY: Validate all new tests pass before committing
+  validate_new_tests_pass()
   add_tests_to_ci_if_appropriate()
 
 CATEGORIZE_TEST_FAILURES:
@@ -125,31 +148,53 @@ ADD_TESTS_TO_CI:
 MANDATORY_VALIDATION_WORKFLOW:
   # This workflow is REQUIRED before any handoff
   
-  # Step 1: Code Quality
-  run_code_formatter()  # black, prettier, etc.
-  run_linters()         # mypy, eslint, etc.
-  fix_formatting_issues()
+  # Step 0: REPOSITORY ANALYSIS (CRITICAL - prevents broken tests)
+  analyze_repository_structure()  # Understand what exists
+  inventory_existing_constructs()  # Only test implemented features
+  validate_epic_scope()  # Stay within task boundaries
   
-  # Step 2: Local Testing
+  # Step 1: Code Quality
+  run_black_formatter()     # MANDATORY: black . --check and fix
+  run_mypy_type_checker()   # MANDATORY: mypy . and fix issues
+  run_additional_linters()  # Any other project-specific linters
+  fix_all_formatting_and_type_issues()
+  
+  # Step 2: Local Testing (ENHANCED - validate new tests work)
   run_complete_test_suite()
-  ensure_all_tests_pass()
+  ensure_all_existing_tests_pass()  # Must not break existing functionality
+  if (wrote_new_tests):
+    validate_new_tests_syntax()  # Check Python syntax is valid
+    validate_new_tests_pass()  # New tests must pass individually
+    validate_kinda_code_templates()  # Generated kinda code must be valid
   verify_adequate_coverage()
   
-  # Step 3: Commit Changes
+  # Step 3: Commit Changes (including formatting fixes)
   stage_all_changes()
-  create_detailed_commit_message()
+  create_detailed_commit_message()  # Include formatting fixes
   commit_changes()
   
-  # Step 4: Full CI Validation
-  run_local_ci_script()  # Must match GitHub Actions exactly
+  # Step 4: Full CI Validation (MANDATORY - must pass completely)
+  run_local_ci_script()  # bash ~/kinda-lang-agents/infrastructure/scripts/ci-local.sh
   
   while (ci_validation_fails):
     analyze_ci_failures()
     categorize_failure_types()
-    fix_each_failure()
+    if (formatting_failures):
+      run_black_formatter_again()
+      commit_formatting_fixes()
+    elif (type_failures):
+      run_mypy_fixes()
+      commit_type_fixes()
+    elif (test_failures):
+      if (new_test_failures):
+        fix_or_remove_broken_new_tests()
+      elif (existing_test_failures):
+        investigate_implementation_issues()
+    else:
+      fix_each_failure()
     run_ci_validation_again()
   
-  # Step 5: Only after everything passes
+  # Step 5: Only after CI passes completely
   push_changes_to_remote()
   verify_github_ci_triggers()
   
@@ -157,13 +202,22 @@ MANDATORY_VALIDATION_WORKFLOW:
 
 COMPLETION_SEQUENCE:
   # MANDATORY: Never hand off without completing these steps
-  format_and_lint_all_code()  # Run black, mypy, etc.
-  commit_changes_with_detailed_message()  # Document what was fixed
-  run_full_ci_validation()  # Must pass completely
+  run_black_formatter()  # MANDATORY: Format all code
+  run_mypy_type_checker()  # MANDATORY: Check all types
+  format_and_lint_all_code()  # Any additional linting
+  commit_changes_with_detailed_message()  # Document what was fixed including formatting
+  run_full_ci_validation()  # Must pass completely: bash ~/kinda-lang-agents/infrastructure/scripts/ci-local.sh
   
   if (ci_validation_fails):
     investigate_failures()
-    fix_issues()
+    if (black_formatting_issues):
+      run_black_formatter_again()
+      commit_formatting_fixes()
+    elif (mypy_type_issues):
+      fix_type_issues()
+      commit_type_fixes()
+    else:
+      fix_issues()
     repeat_validation()  # Loop until CI passes
   
   # Only after CI passes:
@@ -212,22 +266,33 @@ COMPLETION_SEQUENCE:
 
 **Test Types for Kinda:**
 ```python
-# Unit Tests - Standard functionality
-def test_fuzzy_int_creation():
-    assert isinstance(fuzzy_int(42), FuzzyInt)
+# Unit Tests - Standard functionality (test existing constructs only)
+def test_kinda_repeat_basic():
+    # Only test constructs confirmed to exist in grammar
+    pass
 
 # Statistical Tests - Kinda's probabilistic behavior  
-def test_sorta_print_probability():
-    ~assert_probability(~sorta_print("test"), expected_prob=0.8, samples=1000)
+def test_eventually_until_confidence():
+    # Test statistical behavior of implemented constructs
+    # Use simple, direct kinda code - avoid complex f-string templating
+    pass
 
-# Integration Tests - Component interactions
-def test_personality_chaos_integration():
-    # Test personality + chaos level interactions
+# Integration Tests - ONLY between constructs that both exist
+def test_kinda_repeat_with_personality():
+    # Check construct inventory first - both features must exist
+    pass
 
-# Performance Tests - Ensure fuzzy overhead is acceptable
-def test_fuzzy_performance_overhead():
-    # Measure performance impact of fuzzy constructs
+# AVOID: Do not test constructs that don't exist yet
+# AVOID: Complex f-string templating in generated kinda code
+# AVOID: Integration tests with unimplemented features
 ```
+
+**CRITICAL Test Creation Rules:**
+1. **Repository Analysis First**: Always run `analyze_repository_structure()` 
+2. **Construct Inventory**: Only test features that actually exist
+3. **Simple Templates**: Use direct kinda code, not complex f-string templating
+4. **Validate Tests Pass**: Every new test must pass before committing
+5. **Run Local CI**: Must run and pass `ci-local.sh` before handoff
 
 ## 🤝 Agent Coordination
 
