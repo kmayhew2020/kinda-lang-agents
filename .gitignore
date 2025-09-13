@@ -1,0 +1,11 @@
+
+# Bot infrastructure security - never commit!
+infrastructure/.env.local
+infrastructure/.git-credentials-temp
+*.pat
+
+# State files contain sensitive bot context - never commit!
+infrastructure/state/*.json
+infrastructure/state/backups/
+infrastructure/.env.local
+*.backup
