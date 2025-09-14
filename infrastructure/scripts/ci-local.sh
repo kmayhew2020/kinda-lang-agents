@@ -52,6 +52,7 @@ print_success "Dependencies installed"
 
 # 2. Black formatting check (matches CI)
 print_status "Check code formatting with Black..."
+export PATH="$HOME/.local/bin:$PATH"
 black --check --diff . || {
     print_error "Code formatting issues found. Run 'black .' to fix."
     exit 1
